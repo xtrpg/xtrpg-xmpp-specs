@@ -1,0 +1,67 @@
+name: Compile Markdown Drafts to XSF XML
+
+on:
+  push:
+    paths:
+      - 'specs/**.md'
+  pull_request:
+    paths:
+      - 'specs/**.md'
+
+jobs:
+  build-xep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python Dependencies
+        run: pip install pyyaml
+
+      - name: Initialize Job Summary
+        run: |
+          echo "# 🚀 Compiled XSF XML Specification Report" >> $GITHUB_STEP_SUMMARY
+          echo "Automatically compiled from Markdown source via Docs-as-Code pipeline." >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+
+      - name: Compile Specs
+        run: |
+          mkdir -p dist/
+          for f in specs/*.md; do
+            filename=$(basename "$f" .md)
+            echo "Compiling $filename..."
+            
+            # Pass 1: Convert Markdown to HTML intermediate file via Pandoc
+            pandoc "$f" -f markdown -t html -o "dist/${filename}.html"
+            
+            # Pass 2: Pass both the generated HTML and original MD to the script
+            python scripts/md_to_xep.py "dist/${filename}.html" "$f" > "dist/${filename}.xml"
+            
+            # Pass 3. Post a clean, collapsed code block to the GitHub Job Summary
+            echo "## 📄 $filename.xml" >> $GITHUB_STEP_SUMMARY
+            echo "<details><summary>Click to expand compiled XML payload</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`xml" >> $GITHUB_STEP_SUMMARY
+            cat "dist/${filename}.xml" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "---" >> $GITHUB_STEP_SUMMARY
+
+            # Clean up intermediate file
+            rm "dist/${filename}.html"
+          done
+
+      # - name: Upload XSF XML Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: xsf-compiled-xml
+      #     path: dist/*.xml
