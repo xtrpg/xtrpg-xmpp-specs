@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ttrpg-engine xmlns='urn:xmpp:ttrpg:engine:0'>
   <formula-definition id='d20-check'>
-    <math>2d20 + @context.var[modifier]</math>
+    <math>1d20 + @context.var[modifier]</math>
   </formula-definition>
 </ttrpg-engine>
