@@ -1,4 +1,4 @@
-# xtrpg-xmpp-specs
+# XTRPG XMPP Specification
 
 An open, decentralized, and federated protocol framework for hosting Tabletop Role-Playing Games (TTRPGs) and Virtual Tabletops (VTTs) natively over the XMPP protocol. 
 
