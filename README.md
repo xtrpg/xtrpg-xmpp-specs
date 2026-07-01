@@ -16,5 +16,20 @@ To maintain absolute system-agnostic flexibility—supporting everything from D&
 4. **XEP-4: Content Compendiums** — Content-addressable packages for items, spells, bestiaries, and adventure modules that dynamically map back to System Manifests.
 5. **XEP-5: Virtual Tabletop Integration** — The real-time session engine that choreographs Multi-User Chats (MUC), initiative tracking, dice rolling logs, and combat orchestration.
 
+## 🌐 Unofficial Namespace Protocol
+
+This project utilizes an unofficial, custom namespace to uniquely identify schemas, protocol rules, and game mechanics data structures.
+
+* **Base URI:** `[https://protocol.xenosnowfox.com/xtrpg/](https://protocol.xenosnowfox.com/xtrpg/)`
+
+### URI Structure
+
+All identifiers within this namespace follow a strict hierarchical structure:
+
+```text
+https://protocol.xenosnowfox.com/xtrpg/{category}/{version}/{resource}
+
+```
+
 ## ⚙️ Docs-as-Code & Validation
 This repository follows a strict **Docs-as-Code** philosophy. All protocol changes are verified automatically via CI/CD. Our automated GitHub Actions test all raw XML payload examples against our strict `.xsd` schemas on every pull request, ensuring our documentation is always verified, accurate, and completely production-ready.
