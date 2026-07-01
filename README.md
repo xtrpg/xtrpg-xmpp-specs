@@ -1,6 +1,6 @@
 # XTRPG XMPP Specification
 
-An open, decentralized, and federated protocol framework for hosting Tabletop Role-Playing Games (TTRPGs) and Virtual Tabletops (VTTs) natively over the XMPP protocol. 
+An open, decentralized, and federated protocol framework for hosting Tabletop Role-Playing Games (TTRPGs) and Virtual Tabletops (VTTs) natively over the XMPP protocol.
 
 This repository houses the formal specifications, XML schemas, and verification payloads for a multi-part ecosystem designed to liberate tabletop data from monolithic, proprietary cloud ecosystems.
 
@@ -32,3 +32,9 @@ https://protocol.xenosnowfox.com/xtrpg/{category}/{version}/{resource}
 
 ## ⚙️ Docs-as-Code & Validation
 This repository follows a strict **Docs-as-Code** philosophy. All protocol changes are verified automatically via CI/CD. Our automated GitHub Actions test all raw XML payload examples against our strict `.xsd` schemas on every pull request, ensuring our documentation is always verified, accurate, and completely production-ready.
+
+## Reference Materials
+
+- [RFC 3921](https://xmpp.org/rfcs/rfc3921.html)
+- [XEPS](https://github.com/xsf/xeps)
+- [XMPP Extensions](https://xmpp.org/extensions/index.html)
