@@ -6,12 +6,15 @@ on:
       - main
     paths:
       - 'specs/**.md'
+      - 'schemas/**.xsd'
+      - 'examples/**.xml'
   pull_request:
     branches:
       - main
     paths:
       - 'specs/**.md'
-
+      - 'schemas/**.xsd'
+      - 'examples/**.xml'
 jobs:
   build-xep:
     runs-on: ubuntu-latest
@@ -29,6 +32,14 @@ jobs:
 
       - name: Install Python Dependencies
         run: pip install pyyaml
+
+      # --- STEP 1: VALIDATE XML EXAMPLES AGAINST XSD SCHEMAS ---
+      - name: Validate XML Payloads against Schemas
+        run: |
+          echo "Executing automated XSD validation protocols..."
+          # Validate XEP-1 examples against the rules-engine schema
+          xmllint --noout --schema schemas/rules-engine.xsd examples/rules-engine/*.xml
+          echo "✅ All XML payloads successfully match schema specifications!"
 
       - name: Initialize Job Summary
         run: |
