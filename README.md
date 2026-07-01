@@ -38,3 +38,8 @@ This repository follows a strict **Docs-as-Code** philosophy. All protocol chang
 - [RFC 3921](https://xmpp.org/rfcs/rfc3921.html)
 - [XEPS](https://github.com/xsf/xeps)
 - [XMPP Extensions](https://xmpp.org/extensions/index.html)
+- [XEP-0045: Multi-User Chat](https://xmpp.org/extensions/xep-0045.html)
+- [XEP-0471: Calendar Events](https://xmpp.org/extensions/xep-0471.html)
+- [XEP-0030: Service Discovery](https://xmpp.org/extensions/xep-0030.html)
+- [XEP-0313: Message Archive Management](https://xmpp.org/extensions/xep-0313.html)
+- [XEP-0508: Forums](https://xmpp.org/extensions/xep-0508.html)
