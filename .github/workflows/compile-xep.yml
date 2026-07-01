@@ -2,9 +2,13 @@ name: Compile Markdown Drafts to XSF XML
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'specs/**.md'
   pull_request:
+    branches:
+      - main
     paths:
       - 'specs/**.md'
 
