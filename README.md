@@ -20,7 +20,7 @@ To maintain absolute system-agnostic flexibility—supporting everything from D&
 
 This project utilizes an unofficial, custom namespace to uniquely identify schemas, protocol rules, and game mechanics data structures.
 
-* **Base URI:** `[https://protocol.xenosnowfox.com/xtrpg/](https://protocol.xenosnowfox.com/xtrpg/)`
+* **Base URI:** `https://protocol.xenosnowfox.com/xtrpg/`
 
 ### URI Structure
 
@@ -28,7 +28,6 @@ All identifiers within this namespace follow a strict hierarchical structure:
 
 ```text
 https://protocol.xenosnowfox.com/xtrpg/{category}/{version}/{resource}
-
 ```
 
 ## ⚙️ Docs-as-Code & Validation
