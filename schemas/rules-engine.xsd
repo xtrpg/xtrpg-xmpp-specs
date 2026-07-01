@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs='[http://www.w3.org/2001/XMLSchema](http://www.w3.org/2001/XMLSchema)'
+           targetNamespace='urn:xmpp:ttrpg:engine:0'
+           xmlns='urn:xmpp:ttrpg:engine:0'
+           elementFormDefault='qualified'>
+
+  <xs:element name='ttrpg-engine'>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name='formula-definition' maxOccurs='unbounded'>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name='description' type='xs:string' minOccurs='0'/>
+              <xs:element name='math' type='xs:string'/>
+            </xs:sequence>
+            <xs:attribute name='id' type='xs:string' use='required'/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
