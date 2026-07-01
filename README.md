@@ -1,2 +1,20 @@
 # xtrpg-xmpp-specs
-The official repository for a federated, multi-part XEP architecture designed to run virtual tabletops over XMPP. It maps data-driven rules engines, system manifests, and character sheets onto decentralized PubSub and MUC networks. Built with a docs-as-code philosophy, it features automated CI validation for open, cloud-free gaming.
+
+An open, decentralized, and federated protocol framework for hosting Tabletop Role-Playing Games (TTRPGs) and Virtual Tabletops (VTTs) natively over the XMPP protocol. 
+
+This repository houses the formal specifications, XML schemas, and verification payloads for a multi-part ecosystem designed to liberate tabletop data from monolithic, proprietary cloud ecosystems.
+
+## 🌌 The Vision
+Our goal is to treat game mechanics exactly like the web: open, text-driven, and highly adaptable. By utilizing XMPP’s federated nature, players and GMs can host campaigns, manage character sheets, and share custom homebrew modules without relying on a single source of truth or paying recurring platform subscriptions.
+
+## 🏗️ The XEP Architecture
+To maintain absolute system-agnostic flexibility—supporting everything from D&D and Pathfinder to Daggerheart and indie homebrew, the protocol is split into five modular layers:
+
+1. **XEP-1: Tabletop Rules Engine** — The core mathematical grammar and XML token definitions for evaluating dice notation, resource costs, and game logic attributes.
+2. **XEP-2: System Manifests** — The architectural blueprints that define specific game systems (e.g., mapping the core stats, skill trees, and rule mechanics of D&D 5e vs. a custom system).
+3. **XEP-3: Character Sheet Management** — Live player state persistence, hosted locally or via personal PubSub/PEP nodes, ensuring players entirely own their character history.
+4. **XEP-4: Content Compendiums** — Content-addressable packages for items, spells, bestiaries, and adventure modules that dynamically map back to System Manifests.
+5. **XEP-5: Virtual Tabletop Integration** — The real-time session engine that choreographs Multi-User Chats (MUC), initiative tracking, dice rolling logs, and combat orchestration.
+
+## ⚙️ Docs-as-Code & Validation
+This repository follows a strict **Docs-as-Code** philosophy. All protocol changes are verified automatically via CI/CD. Our automated GitHub Actions test all raw XML payload examples against our strict `.xsd` schemas on every pull request, ensuring our documentation is always verified, accurate, and completely production-ready.
