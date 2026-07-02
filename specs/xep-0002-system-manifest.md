@@ -1,6 +1,6 @@
 ---
-title: System Manifest
-abstract: ABSTRACT
+Title: System Manifest
+Abstract: ABSTRACT
 ---
 
 # Introduction

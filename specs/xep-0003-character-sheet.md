@@ -1,6 +1,6 @@
 ---
-title: TITLE
-abstract: ABSTRACT
+Title: TITLE
+Abstract: ABSTRACT
 ---
 
 # Introduction
