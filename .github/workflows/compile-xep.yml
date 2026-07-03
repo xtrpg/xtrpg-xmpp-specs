@@ -5,16 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'specs/**.md'
-      - 'schemas/**.xsd'
-      - 'examples/**.xml'
+      - "specs/**.md"
+      - "schemas/**.xsd"
+      - "examples/**.xml"
   pull_request:
     branches:
       - main
     paths:
-      - 'specs/**.md'
-      - 'schemas/**.xsd'
-      - 'examples/**.xml'
+      - "specs/**.md"
+      - "schemas/**.xsd"
+      - "examples/**.xml"
 jobs:
   build-xep:
     runs-on: ubuntu-latest
@@ -24,13 +24,13 @@ jobs:
 
       - name: Install System Dependencies
         run: |
-          sudo apt-get update 
+          sudo apt-get update
           sudo apt-get install -y pandoc libxml2-utils
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install Python Dependencies
         run: pip install pyyaml
@@ -55,13 +55,13 @@ jobs:
           for f in specs/*.md; do
             filename=$(basename "$f" .md)
             echo "Compiling $filename..."
-            
+
             # Pass 1: Convert Markdown to HTML intermediate file via Pandoc
-            pandoc "$f" -f markdown -t html -o "dist/${filename}.html"
-            
+            pandoc "$f" -f markdown-auto_identifiers -t html -o "dist/${filename}.html"
+
             # Pass 2: Pass both the generated HTML and original MD to the script
             python scripts/md_to_xep.py "dist/${filename}.html" "$f" > "dist/${filename}.xml"
-            
+
             # Pass 3. Post a clean, collapsed code block to the GitHub Job Summary
             echo "## 📄 $filename.xml" >> $GITHUB_STEP_SUMMARY
             echo "<details><summary>Click to expand compiled XML payload</summary>" >> $GITHUB_STEP_SUMMARY
