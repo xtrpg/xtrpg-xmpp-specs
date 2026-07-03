@@ -1,6 +1,7 @@
 ---
 Title: Federated Artifact and Schema Discovery
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

@@ -1,6 +1,7 @@
 ---
 Title: TTRPG Content Compendium and Asset Schemas
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

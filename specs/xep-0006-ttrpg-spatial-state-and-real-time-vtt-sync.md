@@ -1,6 +1,7 @@
 ---
 Title: TTRPG Spatial State and Real-Time VTT Sync
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

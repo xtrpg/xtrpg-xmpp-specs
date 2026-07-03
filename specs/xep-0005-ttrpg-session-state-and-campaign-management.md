@@ -1,6 +1,7 @@
 ---
 Title: TTRPG Session State and Campaign Management
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

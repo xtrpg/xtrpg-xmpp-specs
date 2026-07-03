@@ -1,6 +1,7 @@
 ---
 Title: TTRPG Core Mechanics Syntax and Evaluation
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

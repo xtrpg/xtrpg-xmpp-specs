@@ -1,6 +1,7 @@
 ---
 Title: TTRPG System Manifest and Schema Definition
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction

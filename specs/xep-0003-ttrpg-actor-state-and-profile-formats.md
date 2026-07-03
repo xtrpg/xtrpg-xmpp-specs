@@ -1,6 +1,7 @@
 ---
 Title: TTRPG Actor State and Profile Formats
 Abstract: ABSTRACT
+Status: Draft
 ---
 
 # 1. Introduction
