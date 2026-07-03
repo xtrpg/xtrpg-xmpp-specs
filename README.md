@@ -10,11 +10,13 @@ Our goal is to treat game mechanics exactly like the web: open, text-driven, and
 ## 🏗️ The XEP Architecture
 To maintain absolute system-agnostic flexibility—supporting everything from D&D and Pathfinder to Daggerheart and indie homebrew, the protocol is split into five modular layers:
 
-1. **XEP-1: Tabletop Rules Engine** — The core mathematical grammar and XML token definitions for evaluating dice notation, resource costs, and game logic attributes.
-2. **XEP-2: System Manifests** — The architectural blueprints that define specific game systems (e.g., mapping the core stats, skill trees, and rule mechanics of D&D 5e vs. a custom system).
-3. **XEP-3: Character Sheet Management** — Live player state persistence, hosted locally or via personal PubSub/PEP nodes, ensuring players entirely own their character history.
-4. **XEP-4: Content Compendiums** — Content-addressable packages for items, spells, bestiaries, and adventure modules that dynamically map back to System Manifests.
-5. **XEP-5: Virtual Tabletop Integration** — The real-time session engine that choreographs Multi-User Chats (MUC), initiative tracking, dice rolling logs, and combat orchestration.
+1. **XEP-0000: Federated Artifact and Schema Discovery.** 
+2. **XEP-0001: TTRPG Core Mechanics Syntax and Evaluation.** The core mathematical grammar and XML token definitions for evaluating dice notation, resource costs, and game logic attributes.
+3. **XEP-0002: TTRPG System Manifest and Schema Definition.** The architectural blueprints that define specific game systems (e.g., mapping the core stats, skill trees, and rule mechanics of D&D 5e vs. a custom system).
+4. **XEP-0003: TTRPG Actor State and Profile Formats.** Live player state persistence, hosted locally or via personal PubSub/PEP nodes, ensuring players entirely own their character history.
+5. **XEP-0004: TTRPG Content Compendium and Asset Schemas.** Content-addressable packages for items, spells, bestiaries, and adventure modules that dynamically map back to System Manifests.
+6. **XEP-0005: TTRPG Session State and Campaign Management.**
+7. **XEP-0006: TTRPG Spatial State and Real-Time VTT Sync.** The real-time session engine that choreographs Multi-User Chats (MUC), initiative tracking, dice rolling logs, and combat orchestration.
 
 ## 🌐 Unofficial Namespace Protocol
 

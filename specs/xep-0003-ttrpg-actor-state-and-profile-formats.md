@@ -1,5 +1,5 @@
 ---
-Title: Rules Engine
+Title: TTRPG Actor State and Profile Formats
 Abstract: ABSTRACT
 ---
 
