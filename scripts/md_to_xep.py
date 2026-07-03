@@ -6,6 +6,8 @@ def convert_md_to_xsf(html_content, yaml_metadata):
     # 1. Pull values from the parsed front matter dictionary
     title = yaml_metadata.get('Title', 'Untitled XEP Extension')
     abstract = yaml_metadata.get('Abstract', 'No abstract provided.')
+    status = yaml_metadata.get('Status', 'Experimental')
+    type = yaml_metadata.get('Type', 'Standards Track')
 
     # 2. Map standard markdown/HTML structures to XSF layout tags
     processed = re.sub(r'<h2>(.*?)</h2>', r"<section1 topic='\1'>", html_content)
@@ -26,8 +28,8 @@ def convert_md_to_xsf(html_content, yaml_metadata):
   <header>
     <title>{title}</title>
     <abstract>{abstract}</abstract>
-    <status>Experimental</status>
-    <type>Standards Track</type>
+    <status>{status}</status>
+    <type>{type}</type>
     <sig>Standards</sig>
   </header>
   <itemtype>Feature</itemtype>
