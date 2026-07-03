@@ -4,27 +4,27 @@ Abstract: ABSTRACT
 Status: Draft
 ---
 
-## 1. Introduction
+## Introduction
 
 TBD
 
-## 2. Requirements
+## Requirements
 
 TBD
 
-## 3. Use Cases
+## Use Cases
 
 TBD
 
-## 4. Protocol Mechanics
+## Protocol Mechanics
 
 TBD
 
-## 5. Business Rules
+## Business Rules
 
 TBD
 
-## 6. XML Schema Definition
+## XML Schema Definition
 
 TBD
 
