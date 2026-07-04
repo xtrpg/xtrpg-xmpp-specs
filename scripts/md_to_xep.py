@@ -70,6 +70,7 @@ def convert_md_to_xsf(html_content, yaml_metadata):
     abstract = yaml_metadata.get('Abstract', 'No abstract provided.')
     status = yaml_metadata.get('Status', 'Experimental')
     type = yaml_metadata.get('Type', 'Standards Track')
+    number = yaml_metadata.get('Number', 'XXXX')
 
     # 2. Parse flat HTML hierarchy into nested XSF sections
     parser = XsfStructureParser()
@@ -92,6 +93,7 @@ def convert_md_to_xsf(html_content, yaml_metadata):
   <header>
     <title>{title}</title>
     <abstract>{abstract}</abstract>
+    <number>{number}</number>
     <status>{status}</status>
     <type>{type}</type>
     <sig>Standards</sig>
