@@ -1,6 +1,68 @@
 import sys
 import re
 import yaml
+from html.parser import HTMLParser
+
+class XsfStructureParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.output = []
+        self.stack = []  # Tracks currently open section levels: e.g., [1, 2]
+
+    def close_sections_to_level(self, level):
+        """Closes any open sections that are at or deeper than the incoming level."""
+        while self.stack and self.stack[-1] >= level:
+            closed_level = self.stack.pop()
+            self.output.append(f"\n</section{closed_level}>")
+
+    def handle_starttag(self, tag, attrs):
+        attr_dict = dict(attrs)
+
+        # Check if it's a header tag from h2 to h6
+        match = re.match(r'^h([2-6])$', tag)
+        if match:
+            header_num = int(match.group(1))
+            section_level = header_num - 1
+
+            # 1. Close any open sections that have a number >= current section level
+            self.close_sections_to_level(section_level)
+
+            # 2. Open the new section container
+            self.stack.append(section_level)
+
+            anchor_str = f" anchor='{attr_dict['id']}'" if 'id' in attr_dict else ""
+            self.output.append(f"\n<section{section_level} topic='")
+
+            # Set internal flag so we know we are capturing the header's text/topic
+            self.in_header = True
+            self.current_anchor_str = anchor_str
+            return
+
+        # Handle standard tags (like <p>)
+        self.in_header = False
+        attr_str = "".join([f" {k}='{v}'" for k, v in attrs.items()])
+        self.output.append(f"<{tag}{attr_str}>")
+
+    def handle_endtag(self, tag):
+        match = re.match(r'^h([2-6])$', tag)
+        if match:
+            # We finished capturing the header text, finish opening the container
+            self.output.append(f"'{self.current_anchor_str}>")
+            self.in_header = False
+            return
+
+        self.output.append(f"</{tag}>")
+
+    def handle_data(self, data):
+        # Pass text directly through
+        self.output.append(data)
+
+    def close_all(self):
+        """Closes any remaining open sections at the end of the document."""
+        while self.stack:
+            closed_level = self.stack.pop()
+            self.output.append(f"\n</section{closed_level}>")
+
 
 def convert_md_to_xsf(html_content, yaml_metadata):
     # 1. Pull values from the parsed front matter dictionary
@@ -9,9 +71,11 @@ def convert_md_to_xsf(html_content, yaml_metadata):
     status = yaml_metadata.get('Status', 'Experimental')
     type = yaml_metadata.get('Type', 'Standards Track')
 
-    # 2. Map standard markdown/HTML structures to XSF layout tags
-    processed = re.sub(r'<h2>(.*?)</h2>', r"<section1 topic='\1'>", html_content)
-    processed = re.sub(r'<h3>(.*?)</h3>', r"<section2 topic='\1'>", processed)
+    # 2. Parse flat HTML hierarchy into nested XSF sections
+    parser = XsfStructureParser()
+    parser.feed(html_content)
+    parser.close_all()
+    processed = "".join(parser.output)
 
     # Convert code blocks to XSF example blocks
     processed = re.sub(
