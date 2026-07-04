@@ -68,14 +68,16 @@ A user has obtained the system of rules for a Tabletop System and want to valida
 The client send an IQ-get stanza to the registry server, requesting the fingerprint for a specified game system of rules.
 
 ```xml
+<!-- The user Juliet is requesting verification information from a registry server -->
 <iq from='juliet@capulet.com/character'
     to='registry.verona.com'
     type='get'
     id='verify-1'>
 
-  <!-- Set the custom query namespace to match our platform -->
+  <!-- Juliet's request is wrapped within a Query stanza. -->
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
-    <!-- Provide one or more items for the systems the user wants to have returned. -->
+
+    <!-- Juliet is requesting the verification information for Darrington Press's Daggerheart 1st Edition system of rules. -->
     <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1' />
   </query>
 
@@ -85,23 +87,24 @@ The client send an IQ-get stanza to the registry server, requesting the fingerpr
 Upon a successful request the server will respond with the verification details.
 
 ```xml
+<!-- The registy responds back to Juliet with the verification information. -->
 <iq from='registry.verona.com'
     to='juliet@capulet.com/character'
     type='result'
     id='verify-1'>
 
-  <!-- Set the custom query namespace to match our platform -->
+  <!-- The Registry's response is wrapped in a Query stanza. -->
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
-    <!-- Provide one or more items for the systems the user wants to have returned. -->
+    <!-- The Registry is returninf the verification information for the URN that Juliet requested. -->
     <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
           status='active'>
       <!-- At a minimum we recommend providing a sha256 fingerprint -->
       <fingerprint algo='sha256'
-                   source='dnssec'
+                   source='dns'
                    verified='2026-07-04T09:15:00Z'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
 
-      <!-- The specification allows for returning multiple fingerprint based on different algorithms -->
+      <!-- The Registry may also return additional fingerprints, that utilize alternative algorithms. -->
       <fingerprint algo='sha3-256'
                    source='manual'
                    verified='2026-07-04T09:15:00Z'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
@@ -112,37 +115,10 @@ Upon a successful request the server will respond with the verification details.
 </iq>
 ```
 
-In the event that the server does not contain the verification details of a given system then a standard inline XMPP Protocol Error Block is returned.
+Once the user has received a response from the registry, they can calculate their own fingerprint, from the system of rules they have on their system, and compare it against the response from the registry. If the two fingerprints align, then the user can be sure that their copy of the system of rules is a match for what the Registry recognizes.
 
-```xml
-<iq from='registry.verona.com'
-    to='juliet@capulet.com/character'
-    type='error'
-    id='verify-1'>
 
-  <!-- The original query block is echoed back to preserve context -->
-  <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
-    <!-- Provide one or more items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
-          status='error'>
-
-      <!-- Standard XMPP Protocol Error Block -->
-      <error type='cancel'>
-        <!-- Authoritative XMPP error condition primitive -->
-        <item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' />
-
-        <!-- Application-specific text hint for developer diagnostics -->
-        <text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='en'>
-          The requested TTRPG asset uniform resource name or specific version footprint is unknown to this registry.
-        </text>
-      </error>
-
-    </item>
-  </query>
-
-</iq>
-```
 
 ### Verifying Multiple Items In A Single Request
 
@@ -406,7 +382,43 @@ TODO
 
 ## Implementation Notes
 
-TODO
+### Respnding to a request for a non-existant item.
+
+In the event that the server does not contain the verification details of the item it the request they are responding to, then a standard inline XMPP Protocol Error Block is returned.
+
+```xml
+<!-- The Registry to replying to a request from Juliet. -->
+<iq from='registry.verona.com'
+    to='juliet@capulet.com/character'
+    type='error'
+    id='verify-1'>
+
+  <!-- The Registry must wrap its response within a Query stanza. -->
+  <query xmlns='urn:xmpp:xtrpg:verify:0'>
+
+    <!-- The Registry sends back an item for the requested URN with an error status. -->
+    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+          status='error'>
+
+      <!-- The Registry must also include a Standard XMPP Protocol Error Block with details about the issue hat occurred. -->
+      <error type='cancel'>
+        <!-- Authoritative XMPP error condition primitive -->
+        <item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' />
+
+        <!-- Application-specific text hint for developer diagnostics -->
+        <text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='en'>
+          The requested TTRPG asset uniform resource name or specific version footprint is unknown to this registry.
+        </text>
+      </error>
+
+    </item>
+  </query>
+
+</iq>
+```
+
+
+
 
 ## Accessibility Considerations
 
