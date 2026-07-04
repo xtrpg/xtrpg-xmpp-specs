@@ -40,7 +40,7 @@ class XsfStructureParser(HTMLParser):
 
         # Handle standard tags (like <p>)
         self.in_header = False
-        attr_str = "".join([f" {k}='{v}'" for k, v in attrs.items()])
+        attr_str = "".join([f" {k}='{v}'" for k, v in attrs])
         self.output.append(f"<{tag}{attr_str}>")
 
     def handle_endtag(self, tag):
