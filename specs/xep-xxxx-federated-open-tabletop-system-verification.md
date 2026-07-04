@@ -95,9 +95,13 @@ Upon a successful request the server will respond with the verification details.
 
     <!-- Provide one or more items for the systems the user wants to have returned. -->
     <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
-          fingerprint='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-          algo='sha256'
-          status='active' />
+          status='active'>
+      <!-- At a minimum we recommend providing a sha256 fingerprint -->
+      <fingerprint algo='sha256'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
+
+      <!-- The specification allows for returning multiple fingerprint based on different algorithms -->
+      <fingerprint algo='sha3-256'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
+    </item>
 
     </item>
   </query>
@@ -171,22 +175,14 @@ The server must respond with the verification details for each item it has data 
 
     <!-- SUCCESS 1: This system is verified -->
     <item urn='urn:xtrpg:sys:vendor:org.fitd:blades:1'
-          fingerprint='fa721669b934ca495991b7852b855e3b0c44298fc1c149afbf4c8996fb92427ae'
-          algo='sha256'
           status='active'>
-      <mirrors>
-        <mirror provider='https://github.com/xtrpg-hub/fitd-framework-1e-package/releases/download/v1.0.0/dist.xml' priority='1' />
-      </mirrors>
+      <fingerprint algo='sha256'>fa721669b934ca495991b7852b855e3b0c44298fc1c149afbf4c8996fb92427ae</fingerprint>
     </item>
 
     <!-- SUCCESS 2: This system is verified -->
     <item urn='urn:xtrpg:sys:vendor:games.offworld:scum:1'
-          fingerprint='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-          algo='sha256'
           status='active'>
-      <mirrors>
-        <mirror provider='https://github.com/xtrpg-hub/offworld-scum-and-villainy-1e-package/releases/download/v1.0.0/dist.xml' priority='1' />
-      </mirrors>
+      <fingerprint algo='sha256'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
     </item>
 
     <!-- FAILURE 3: This system does not exist on this registry -->
