@@ -23,16 +23,16 @@ TODO: Document system urn naming.
 
 Defines the immutable foundational math laws, attribute pools, and sheet wireframes.
 
-* **Format:** `urn:xtrpg:sys:vendor:[vendor]:[game]:[edition]`
-* **Example:** `urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1` *(First Edition DaggerHeart by Darrington Press)*
-* **Example:** `urn:xtrpg:sys:vendor:com.wizards:dnd:5.5` *(Dungeons and Dragons 5.5 (2024) Edition by Wizards of the Coast)*
+* **Format:** `urn:xmpp:xtrpg:sys:vendor:[vendor]:[game]:[edition]`
+* **Example:** `urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1` *(First Edition DaggerHeart by Darrington Press)*
+* **Example:** `urn:xmpp:xtrpg:sys:vendor:com.wizards:dnd:5.5` *(Dungeons and Dragons 5.5 (2024) Edition by Wizards of the Coast)*
 
 ### Locally Managed Systems
 
 Bypasses network validation entirely for homebrew testing or offline sessions.
 
-* **Format:** `urn:xtrpg:sys:local:[project-name]`
-* **Example:** `urn:xtrpg:sys:local:my-example-game`
+* **Format:** `urn:xmpp:xtrpg:sys:local:[project-name]`
+* **Example:** `urn:xmpp:xtrpg:sys:local:my-example-game`
 
 TODO: Document a system of generating a fingerprint hash.
 
@@ -78,7 +78,7 @@ The client send an IQ-get stanza to the registry server, requesting the fingerpr
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- Juliet is requesting the verification information for Darrington Press's Daggerheart 1st Edition system of rules. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1' />
   </query>
 
 </iq>
@@ -97,7 +97,7 @@ Upon a successful request the server will respond with the verification details.
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- The Registry is returninf the verification information for the URN that Juliet requested. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
           status='active'>
       <!-- At a minimum we recommend providing a sha256 fingerprint -->
       <fingerprint algo='sha256'
@@ -134,9 +134,9 @@ The client is able to submit multiple `<item>` elements within the body of the q
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- Provide multiple items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:org.fitd:blades:1' />
-    <item urn='urn:xtrpg:sys:vendor:games.offworld:scum:1' />
-    <item urn='urn:xtrpg:sys:vendor:games.homebrew:hyperdrive-overhaul:2' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:org.fitd:blades:1' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:games.offworld:scum:1' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:games.homebrew:hyperdrive-overhaul:2' />
   </query>
 
 </iq>
@@ -153,7 +153,7 @@ The server must respond with the verification details for each item it has data 
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- SUCCESS 1: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:org.fitd:blades:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:org.fitd:blades:1'
           status='active'>
       <fingerprint algo='sha256'
                    source='dns'
@@ -161,7 +161,7 @@ The server must respond with the verification details for each item it has data 
     </item>
 
     <!-- SUCCESS 2: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:games.offworld:scum:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:games.offworld:scum:1'
           status='active'>
       <fingerprint algo='sha256'
                    source='dns'
@@ -169,7 +169,7 @@ The server must respond with the verification details for each item it has data 
     </item>
 
     <!-- FAILURE 3: This system does not exist on this registry -->
-    <item urn='urn:xtrpg:sys:vendor:games.homebrew:hyperdrive-overhaul:2'
+    <item urn='urn:xmpp'
           status='error'>
 
       <!-- Inline error block scopes the failure strictly to this asset -->
@@ -202,7 +202,7 @@ The client sends an IQ stanza to the active campaign room to verify the exact ru
   <!-- Set the custom query namespace to match our platform -->
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
     <!-- Provide one or more items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1' />
   </query>
 
 </iq>
@@ -220,7 +220,7 @@ The room server confirms the request item matches the GM's campaign setting.
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- Provide one or more items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
           status='active'>
       <!-- At a minimum we recommend providing a sha256 fingerprint -->
       <fingerprint algo='sha256'
@@ -277,7 +277,7 @@ Once this is uploaded, any client, server or registry can query the secure publi
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- Provide one or more items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-houses:fencing-mechanics:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-houses:fencing-mechanics:1'
           status='active'>
 
       <!-- At a minimum we recommend providing a sha256 fingerprint -->
@@ -306,8 +306,8 @@ The Community Registry sends a request to the Vendors Registry for a collection 
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- Provide multiple items for the systems the user wants to have returned. -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1' />
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1' />
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2' />
   </query>
 
 </iq>
@@ -325,7 +325,7 @@ As per any normal request the Vendor Registry responds with the fingerprints for
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- SUCCESS 1: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1'
           status='active'>
       <fingerprint algo='sha256'
                    source='dns'
@@ -333,7 +333,7 @@ As per any normal request the Vendor Registry responds with the fingerprints for
     </item>
 
     <!-- SUCCESS 2: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2'
           status='active'>
       <fingerprint algo='sha256'
                    source='dns'
@@ -355,7 +355,7 @@ Lastly the Community Registry updates their records to indicate their fingerprin
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- SUCCESS 1: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.verona-official:fencing-mechanics:1'
           status='active'>
       <fingerprint algo='sha256'
                    source='registry'
@@ -364,7 +364,7 @@ Lastly the Community Registry updates their records to indicate their fingerprin
     </item>
 
     <!-- SUCCESS 2: This system is verified -->
-    <item urn='urn:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2'
+    <item urn='urn:xmppurn:xtrpg:sys:vendor:com.verona-official:shakespearean-insults:2'
           status='active'>
       <fingerprint algo='sha256'
                    source='registry'
@@ -397,7 +397,7 @@ In the event that the server does not contain the verification details of the it
   <query xmlns='urn:xmpp:xtrpg:verify:0'>
 
     <!-- The Registry sends back an item for the requested URN with an error status. -->
-    <item urn='urn:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
           status='error'>
 
       <!-- The Registry must also include a Standard XMPP Protocol Error Block with details about the issue hat occurred. -->
