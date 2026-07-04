@@ -13,7 +13,7 @@ Namespace: urn:xmpp:xtrpg:verify:0
 
 Virtual Tabletops (VTTs) and digital character managers traditionally operate inside isolated, centralized silos. When a game system receives a balance patch, an item typo fix, or a new setting book release, data models drift out of sync across players, causing structural friction at the table.
 
-This document defines a federated, content-addressed distribution standard. By utilizing structured Uniform Resource Names (URNs) mapped to cryptographic file fingerprints, this protocol allows decentralized game engines to discover, verify, cache, and safely run game mechanics, character sheets, item catalogs, and adventure modules across a federated network.
+This document defines a federated, content-addressed distribution standard. By utilizing structured Uniform Resource Names (URNs) mapped to cryptographic file fingerprints, this protocol allows decentralized game engines to verify, cache, and safely run game mechanics across a federated network.
 
 ## Requirements
 
@@ -382,7 +382,7 @@ TODO
 
 ## Implementation Notes
 
-### Respnding to a request for a non-existant item.
+### Responding to a request for a non-existent item.
 
 In the event that the server does not contain the verification details of the item it the request they are responding to, then a standard inline XMPP Protocol Error Block is returned.
 
