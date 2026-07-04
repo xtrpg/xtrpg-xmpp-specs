@@ -10,7 +10,7 @@ Our goal is to treat game mechanics exactly like the web: open, text-driven, and
 ## 🏗️ The XEP Architecture
 To maintain absolute system-agnostic flexibility—supporting everything from D&D and Pathfinder to Daggerheart and indie homebrew, the protocol is split into five modular layers:
 
-1. **XEP-0000: Federated Artifact and Schema Discovery.** 
+1. **XEP-0000: Federated Artifact and Schema Discovery.**
 2. **XEP-0001: TTRPG Core Mechanics Syntax and Evaluation.** The core mathematical grammar and XML token definitions for evaluating dice notation, resource costs, and game logic attributes.
 3. **XEP-0002: TTRPG System Manifest and Schema Definition.** The architectural blueprints that define specific game systems (e.g., mapping the core stats, skill trees, and rule mechanics of D&D 5e vs. a custom system).
 4. **XEP-0003: TTRPG Actor State and Profile Formats.** Live player state persistence, hosted locally or via personal PubSub/PEP nodes, ensuring players entirely own their character history.
@@ -37,6 +37,15 @@ This repository follows a strict **Docs-as-Code** philosophy. All protocol chang
 
 ## Reference Materials
 
+- RFC 3921: Extensible Messaging and Presence Protocol (XMPP): Instant Messaging and Presence
+  - [XMPP Website](https://xmpp.org/rfcs/rfc3921.html)
+  - [IETF Data Tracker](https://datatracker.ietf.org/doc/html/rfc3921)
+  - [TXT](https://www.rfc-editor.org/rfc/rfc3921.txt)
+  - [HTML](https://www.rfc-editor.org/rfc/rfc3921.html)
+- RFC 6120: Extensible Messaging and Presence Protocol (XMPP): Core
+  - [IETF Data Tracker](https://datatracker.ietf.org/doc/html/rfc6120)
+  - [TXT](https://www.rfc-editor.org/rfc/rfc6120.txt)
+  - [HTML](https://www.rfc-editor.org/rfc/rfc6120.html)
 - [RFC 3921](https://xmpp.org/rfcs/rfc3921.html)
 - [XEPS](https://github.com/xsf/xeps)
 - [XMPP Extensions](https://xmpp.org/extensions/index.html)
