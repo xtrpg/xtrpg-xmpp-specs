@@ -31,4 +31,4 @@ jobs:
           pip install pathlib lxml
 
       - name: Validate XML Payloads against Schemas
-        run: python scripts/validate.py
+        run: python scripts/validate.py > $GITHUB_STEP_SUMMARY
