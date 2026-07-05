@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns='urn:xmpp:xtrpg:verify:0'>
+    <item urn='urn:xmpp:xtrpg:sys:local:my-amazing-game' />
+</query>
