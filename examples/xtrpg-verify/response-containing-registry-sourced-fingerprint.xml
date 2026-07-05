@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns='urn:xmpp:xtrpg:verify:0'>
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+          status='active'>
+        <fingerprint algo='sha256'
+                     source='registry'
+                     jid='registry.example.com'
+                     verified='2026-07-04T09:15:00Z'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</fingerprint>
+    </item>
+</query>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns='urn:xmpp:xtrpg:verify:0'>
+    <item urn='urn:xmpp:xtrpg:sys:vendor:com.darringtonpress:daggerheart:1'
+          status='error'>
+        <error type='cancel'>
+            <item-not-found xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' />
+            <text xmlns='urn:ietf:params:xml:ns:xmpp-stanzas' xml:lang='en'>
+            The requested TTRPG asset uniform resource name or specific version footprint is unknown to this registry.
+            </text>
+        </error>
+    </item>
+  </query>

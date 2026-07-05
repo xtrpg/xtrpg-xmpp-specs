@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+           targetNamespace='urn:xmpp:xtrpg:verify:0'
+           xmlns='urn:xmpp:xtrpg:verify:0'
+           elementFormDefault='qualified'>
+
+  <xs:element name='query'>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name='item' type='itemType' minOccurs='1' maxOccurs='unbounded'/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name='itemType'>
+    <xs:sequence>
+      <xs:element name='fingerprint' type='fingerprintType' minOccurs='0' maxOccurs='unbounded' />
+      <xs:element name='error' type='errorType' minOccurs='0' maxOccurs='1'/>
+    </xs:sequence>
+    <xs:attribute name='urn' type='xs:anyURI' use='required'/>
+    <xs:attribute name="status" type='statusType' />
+  </xs:complexType>
+
+  <xs:complexType name='fingerprintType'>
+    <xs:simpleContent>
+      <xs:extension base='xs:string'>
+        <xs:attribute name='algo' type='xs:string' default='sha256'/>
+        <xs:attribute name='source' type='sourceType' />
+        <xs:attribute name='jid' type='xs:string' use='optional' />
+        <xs:attribute name='verified' type='xs:dateTime' />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name='errorType'>
+    <xs:sequence>
+      <xs:any namespace='urn:ietf:params:xml:ns:xmpp-stanzas' processContents='lax' minOccurs='1' maxOccurs='unbounded' />
+    </xs:sequence>
+    <xs:attribute name='type' type='xs:string' use='required'/>
+  </xs:complexType>
+
+  <xs:simpleType name="statusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="error"/>
+      <xs:enumeration value="active"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="dns"/>
+      <xs:enumeration value="registry"/>
+      <xs:enumeration value="manual"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
