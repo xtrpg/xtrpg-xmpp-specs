@@ -49,7 +49,7 @@ def main():
             if not passed:
                 all_passed = False
                 
-            report.append(f"- {xml_path.name} {status_icon}")
+            report.append(f"- {status_icon} {xml_path.name}")
         
         report.append("") # Add empty line for spacing between schemas
 
