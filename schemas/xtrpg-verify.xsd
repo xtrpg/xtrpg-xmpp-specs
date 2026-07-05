@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+           targetNamespace='urn:xmpp:xtrpg:verify:0'
+           xmlns='urn:xmpp:xtrpg:verify:0'
+           elementFormDefault='qualified'>
+
+  <xs:element name='query'>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name='item' type='itemType' minOccurs='1' maxOccurs='unbounded'/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name='itemType'>
+    <xs:sequence>
+      <xs:element name='fingerprint' type='fingerprintType' minOccurs='0' maxOccurs='1'/>
+      <xs:element name='error' type='errorType' minOccurs='0' maxOccurs='1'/>
+    </xs:sequence>
+    <xs:attribute name='urn' type='xs:anyURI' use='required'/>
+    <xs:attribute name='src' type='xs:string' use='optional'/>
+    <xs:attribute name='timestamp' type='xs:dateTime' use='optional'/>
+  </xs:complexType>
+
+  <xs:complexType name='fingerprintType'>
+    <xs:simpleContent>
+      <xs:extension base='xs:string'>
+        <xs:attribute name='algo' type='xs:string' default='sha256'/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name='errorType'>
+    <xs:sequence>
+      <xs:any namespace='urn:ietf:params:xml:ns:xmpp-stanzas' processContents='lax'/>
+    </xs:sequence>
+    <xs:attribute name='type' type='xs:string' use='required'/>
+  </xs:complexType>
+
+</xs:schema>
