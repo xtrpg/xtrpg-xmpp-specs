@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<system-manifest xmlns="urn:xmpp:xtrpg:system:0"
+                 urn="urn:xmpp:xtrpg:system:vendor:com.wizards:dnd:5.5">
+
+	<attributes>
+		<integer id="helm">
+			<constraints><min value="0"/><max value="4"/><default value="0"/></constraints>
+		</integer>
+		<integer id="scramble">
+			<constraints><min value="0"/><max value="4"/><default value="0"/></constraints>
+		</integer>
+		<integer id="scrap">
+			<constraints><min value="0"/><max value="4"/><default value="0"/></constraints>
+		</integer>
+		<integer id="skulk">
+			<constraints><min value="0"/><max value="4"/><default value="0"/></constraints>
+		</integer>
+
+		<integer id="res_prowess">
+			<calculation>
+				<count-matches operator="gt" target="0">
+					<attribute ref="helm" />
+					<attribute ref="scramble" />
+					<attribute ref="scrap" />
+					<attribute ref="skulk" />
+				</count-matches>
+			</calculation>
+		</integer>
+	</attributes>
+
+
+
+</system-manifest>

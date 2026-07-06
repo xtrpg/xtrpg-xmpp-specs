@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<system-manifest xmlns="urn:xmpp:xtrpg:system:0"
+                 urn="urn:xmpp:xtrpg:system:vendor:com.wizards:dnd:5.5">
+
+	<attributes>
+
+		<!-- D&D Strength Attribute -->
+		<integer id="strength">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
+
+		<!-- D&D Strength Modifier -->
+		<integer id='strength_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="strength" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+		<integer id="dexterity" />
+		<integer id='dexterity_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="dexterity" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+		<integer id="constitution" />
+		<integer id='constitution_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="constitution" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+		<integer id="wisdom" />
+		<integer id='wisdom_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="wisdom" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+		<integer id="intelligence" />
+		<integer id='intelligence_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="intelligence" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+		<integer id="charisma" />
+		<integer id='charisma_modifier'>
+			<calculation>
+				<round method="down" decimalPlaces="0">
+					<divide>
+						<subtract>
+							<attribute ref="charisma" />
+							<integer value="10" />
+						</subtract>
+						<integer value="2" />
+					</divide>
+				</round>
+			</calculation>
+		</integer>
+
+
+
+	</attributes>
+
+
+
+</system-manifest>

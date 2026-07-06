@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+           targetNamespace='urn:xmpp:xtrpg:system:0'
+           xmlns='urn:xmpp:xtrpg:system:0'
+           elementFormDefault='qualified'>
+
+	<xs:element name='system-manifest' type='systemManifest_type' />
+
+
+
+
+
+
+
+	<xs:complexType name='systemManifest_type'>
+		<xs:sequence>
+			<xs:element name='attributes' type='attributes_type' minOccurs='0' maxOccurs='1' />
+		</xs:sequence>
+		<xs:attribute name="urn" type='xs:string' use='required' />
+	</xs:complexType>
+
+	<xs:complexType name='attributes_type'>
+		<xs:sequence>
+			<xs:element name='integer' type='numberAttribute_type' minOccurs='0' maxOccurs='unbounded' />
+			<xs:element name='decimal' type='numberAttribute_type' minOccurs='0' maxOccurs='unbounded' />
+			<xs:element name='string' type='stringAttribute_type' minOccurs='0' maxOccurs='unbounded' />
+			<xs:element name='boolean' type='booleanAttribute_type' minOccurs='0' maxOccurs='unbounded' />
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<xs:complexType name='numberAttribute_type'>
+		<xs:sequence>
+			<xs:element name='calculation' type='calculation_type' minOccurs='0' maxOccurs='1' />
+			<xs:element name='constraints' type='numericalConstraints_type' minOccurs='0' maxOccurs='1' />
+		</xs:sequence>
+		<xs:attribute name="id" type='xs:string' use='required' />
+	</xs:complexType>
+
+	<xs:complexType name='stringAttribute_type'>
+		<xs:attribute name="id" type='xs:string' use='required' />
+	</xs:complexType>
+
+	<xs:complexType name='booleanAttribute_type'>
+		<xs:attribute name="id" type='xs:string' use='required' />
+	</xs:complexType>
+
+	<xs:complexType name='calculation_type'>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Numerical constraints -->
+	<xs:complexType name='numericalConstraints_type'>
+		<xs:sequence>
+			<!-- Min -->
+			<xs:element name='min'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<!-- Max -->
+			<xs:element name='max'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<!-- Default -->
+			<xs:element name='default'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Mathematical Expressions -->
+	<xs:group name='mathematicalExpression_group'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+
+		<xs:choice>
+			<!-- Add -->
+			<xs:element name='add' type='unboundedMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Subtract -->
+			<xs:element name='subtract' type='unboundedMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Multiply -->
+			<xs:element name='multiply' type='unboundedMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Divide -->
+			<xs:element name='divide' type='twoMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Round -->
+			<xs:element name='round' type='roundingExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Min -->
+			<xs:element name='min' type='unboundedMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Max -->
+			<xs:element name='max' type='unboundedMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Clamp -->
+			<xs:element name='clamp' type='threeMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Absolute Value -->
+			<xs:element name='abs' type='oneMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation>Converts the provide value into a non-negative number, representing its distance from zero.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Modulo: Returns the remainder of division -->
+			<xs:element name='mod' type='twoMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation>Returns the remainder after dividing the first argument by the second.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Raw Integer Value -->
+			<xs:element name='integer'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:attribute name="value" type='xs:integer' use='optional' default='0' />
+				</xs:complexType>
+			</xs:element>
+
+			<!-- Raw Decimal Value -->
+			<xs:element name='decimal'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:attribute name="value" type='xs:decimal' use='optional' default='0.0' />
+				</xs:complexType>
+			</xs:element>
+
+			<!-- Attribute Reference -->
+			<xs:element name='attribute'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:attribute name="ref" type='xs:string' use='required' />
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+
+	<!-- Unbounded Mathematical Expression Arguments-->
+	<xs:complexType name='unboundedMathematicalExpressionArguments_type'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='2' maxOccurs='unbounded' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- One Mathematical Expression Arguments -->
+	<xs:complexType name='oneMathematicalExpressionArguments_type'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Two Mathematical Expression Arguments -->
+	<xs:complexType name='twoMathematicalExpressionArguments_type'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='2' maxOccurs='2' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Three Mathematical Expression Arguments -->
+	<xs:complexType name='threeMathematicalExpressionArguments_type'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='3' maxOccurs='3' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Rounding Expression Arguments -->
+	<xs:complexType name='roundingExpressionArguments_type'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+		</xs:sequence>
+		<xs:attribute name="decimalPlaces" type='xs:integer' use='optional' default='0' />
+		<xs:attribute name="method" use='optional' default='half-up'>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="floor">
+						<xs:annotation>
+							<xs:documentation>Rounds towards negative infinity.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="ceiling">
+						<xs:annotation>
+							<xs:documentation>Rounds towards positive infinity.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="up">
+						<xs:annotation>
+							<xs:documentation>Rounds away from zero.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="down">
+						<xs:annotation>
+							<xs:documentation>Rounds towards zero.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="half-up">
+						<xs:annotation>
+							<xs:documentation>Rounds towards the nearest neighbor; rounds up for midpoints. Standard school book rounding.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="half-down">
+						<xs:annotation>
+							<xs:documentation>Rounds towards the nearest neighbor; rounds down for midpoints..</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="half-even">
+						<xs:annotation>
+							<xs:documentation>Rounds towards the nearest neighbor; rounds toward even numbers for midpoints. Also known as Banker's rounding.</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+
+</xs:schema>
