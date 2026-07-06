@@ -4,6 +4,13 @@
 
 	<attributes>
 
+		<!-- D&D Initiative Modifier Attribute -->
+		<integer id="initiative_modifier">
+			<calculation>
+				<attribute ref='dexterity_modifier' />
+			</calculation>
+		</integer>
+
 		<!-- D&D Strength Attribute -->
 		<integer id="strength">
 			<constraints>
@@ -18,8 +25,6 @@
 				</default>
 			</constraints>
 		</integer>
-
-		<!-- D&D Strength Modifier -->
 		<integer id='strength_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
@@ -34,7 +39,20 @@
 			</calculation>
 		</integer>
 
-		<integer id="dexterity" />
+		<!-- D&D Dexterity Attribute -->
+		<integer id="dexterity">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
 		<integer id='dexterity_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
@@ -49,7 +67,20 @@
 			</calculation>
 		</integer>
 
-		<integer id="constitution" />
+		<!-- D&D Constitution Attribute -->
+		<integer id="constitution">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
 		<integer id='constitution_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
@@ -64,7 +95,20 @@
 			</calculation>
 		</integer>
 
-		<integer id="wisdom" />
+		<!-- D&D Wisdom Attribute -->
+		<integer id="wisdom">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
 		<integer id='wisdom_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
@@ -79,7 +123,20 @@
 			</calculation>
 		</integer>
 
-		<integer id="intelligence" />
+		<!-- D&D Intelligence Attribute -->
+		<integer id="intelligence">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
 		<integer id='intelligence_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
@@ -94,7 +151,20 @@
 			</calculation>
 		</integer>
 
-		<integer id="charisma" />
+		<!-- D&D Charisma Attribute -->
+		<integer id="charisma">
+			<constraints>
+				<min>
+					<integer value='0' />
+				</min>
+				<max>
+					<integer value='30' />
+				</max>
+				<default>
+					<integer value='10' />
+				</default>
+			</constraints>
+		</integer>
 		<integer id='charisma_modifier'>
 			<calculation>
 				<round method="down" decimalPlaces="0">
