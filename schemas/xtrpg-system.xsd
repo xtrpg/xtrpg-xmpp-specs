@@ -355,6 +355,59 @@
 				</xs:annotation>
 			</xs:element>
 
+			<!-- Greater Than -->
+			<xs:element name='greater-than' type='twoMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+				<xs:attribute name="boundary" use='optional' default='exclusive'>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="inclusive">
+								<xs:annotation>
+									<xs:documentation>Rounds towards negative infinity.</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="exclusive">
+								<xs:annotation>
+									<xs:documentation>Rounds towards positive infinity.</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:element>
+
+			<!-- Less Than -->
+			<xs:element name='less-than' type='twoMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+				<xs:attribute name="boundary" use='optional' default='exclusive'>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="inclusive">
+								<xs:annotation>
+									<xs:documentation>Rounds towards negative infinity.</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="exclusive">
+								<xs:annotation>
+									<xs:documentation>Rounds towards positive infinity.</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:element>
+
+			<!-- Greater Than -->
+			<xs:element name='equals' type='twoMathematicalExpressionArguments_type'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
 			<!-- Raw Binary Value -->
 			<xs:element name='boolean'>
 				<xs:annotation>
