@@ -33,7 +33,7 @@
 	<xs:complexType name='numberAttribute_type'>
 		<xs:sequence>
 			<xs:element name='calculation' type='calculation_type' minOccurs='0' maxOccurs='1' />
-			<xs:element name='constraints' type='numericalConstraints_type' minOccurs='0' maxOccurs='1' />
+			<xs:element name='constraints' type='tNumericalConstraints' minOccurs='0' maxOccurs='1' />
 		</xs:sequence>
 		<xs:attribute name="id" type='xs:string' use='required' />
 	</xs:complexType>
@@ -48,12 +48,12 @@
 
 	<xs:complexType name='calculation_type'>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+			<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Numerical constraints -->
-	<xs:complexType name='numericalConstraints_type'>
+	<xs:complexType name='tNumericalConstraints'>
 		<xs:sequence>
 			<!-- Min -->
 			<xs:element name='min'>
@@ -62,7 +62,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+						<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -74,7 +74,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+						<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -86,7 +86,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+						<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -94,80 +94,94 @@
 	</xs:complexType>
 
 	<!-- Mathematical Expressions -->
-	<xs:group name='mathematicalExpression_group'>
+	<xs:group name='gMathematicalOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 
 		<xs:choice>
 			<!-- Add -->
-			<xs:element name='add' type='unboundedMathematicalExpressionArguments_type'>
+			<xs:element name='add' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Subtract -->
-			<xs:element name='subtract' type='unboundedMathematicalExpressionArguments_type'>
+			<xs:element name='subtract' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Multiply -->
-			<xs:element name='multiply' type='unboundedMathematicalExpressionArguments_type'>
+			<xs:element name='multiply' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Divide -->
-			<xs:element name='divide' type='twoMathematicalExpressionArguments_type'>
+			<xs:element name='divide' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Round -->
-			<xs:element name='round' type='roundingExpressionArguments_type'>
+			<xs:element name='round' type='tRoundingOperation'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Min -->
-			<xs:element name='min' type='unboundedMathematicalExpressionArguments_type'>
+			<xs:element name='min' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Max -->
-			<xs:element name='max' type='unboundedMathematicalExpressionArguments_type'>
+			<xs:element name='max' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Clamp -->
-			<xs:element name='clamp' type='threeMathematicalExpressionArguments_type'>
+			<xs:element name='clamp' type='tExactlyThreeMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Absolute Value -->
-			<xs:element name='abs' type='oneMathematicalExpressionArguments_type'>
+			<xs:element name='abs' type='tExactlyOneMathematicalOperation'>
 				<xs:annotation>
 					<xs:documentation>Converts the provide value into a non-negative number, representing its distance from zero.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Modulo: Returns the remainder of division -->
-			<xs:element name='mod' type='twoMathematicalExpressionArguments_type'>
+			<xs:element name='mod' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation>Returns the remainder after dividing the first argument by the second.</xs:documentation>
 				</xs:annotation>
+			</xs:element>
+
+			<!-- Ternary Operation -->
+			<xs:element name="ternary">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref='gBinaryOperations' minOccurs='1' maxOccurs='1' />
+						<xs:group ref='gMathematicalOperations' minOccurs='2' maxOccurs='2' />
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 
 			<!-- Raw Integer Value -->
@@ -206,52 +220,52 @@
 	</xs:group>
 
 	<!-- Unbounded Mathematical Expression Arguments-->
-	<xs:complexType name='unboundedMathematicalExpressionArguments_type'>
+	<xs:complexType name='tContainsTwoOrMoreMathematicalOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='2' maxOccurs='unbounded' />
+			<xs:group ref='gMathematicalOperations' minOccurs='2' maxOccurs='unbounded' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- One Mathematical Expression Arguments -->
-	<xs:complexType name='oneMathematicalExpressionArguments_type'>
+	<xs:complexType name='tExactlyOneMathematicalOperation'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+			<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Two Mathematical Expression Arguments -->
-	<xs:complexType name='twoMathematicalExpressionArguments_type'>
+	<xs:complexType name='tContainsExactlyTwoMathematicalOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='2' maxOccurs='2' />
+			<xs:group ref='gMathematicalOperations' minOccurs='2' maxOccurs='2' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Three Mathematical Expression Arguments -->
-	<xs:complexType name='threeMathematicalExpressionArguments_type'>
+	<xs:complexType name='tExactlyThreeMathematicalOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='3' maxOccurs='3' />
+			<xs:group ref='gMathematicalOperations' minOccurs='3' maxOccurs='3' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- Rounding Expression Arguments -->
-	<xs:complexType name='roundingExpressionArguments_type'>
+	<xs:complexType name='tRoundingOperation'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+			<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 		</xs:sequence>
 		<xs:attribute name="decimalPlaces" type='xs:integer' use='optional' default='0' />
 		<xs:attribute name="method" use='optional' default='half-up'>
@@ -299,64 +313,64 @@
 
 
 
-	<!-- Binary Evaluations -->
-	<xs:group name="binaryEvaluation_group">
+	<!-- Binary Operations -->
+	<xs:group name="gBinaryOperations">
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 
 		<xs:choice>
 			<!-- And -->
-			<xs:element name='and' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='and' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if all the child elements equate to TRUE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Nand -->
-			<xs:element name='nor' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='nor' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if one or more of the child elements are equal to FALSE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Or -->
-			<xs:element name='or' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='or' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if one or more of the child elements equate to TRUE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Nor -->
-			<xs:element name='nor' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='nor' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if all the child elements are equal to FALSE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Xor -->
-			<xs:element name='xor' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='xor' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if there is an odd number of the child elements that equate to TRUE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Xnor -->
-			<xs:element name='xnor' type='unboundedBinaryEvaluationArguments_type'>
+			<xs:element name='xnor' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if there is an even number of the child elements that equate to TRUE</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Not -->
-			<xs:element name='not' type='oneBinaryEvaluationArguments_type'>
+			<xs:element name='not' type='tContainsExactlyOneBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if the child element is FALSE.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Greater Than -->
-			<xs:element name='greater-than' type='twoMathematicalExpressionArguments_type'>
+			<xs:element name='greater-than' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -379,7 +393,7 @@
 			</xs:element>
 
 			<!-- Less Than -->
-			<xs:element name='less-than' type='twoMathematicalExpressionArguments_type'>
+			<xs:element name='less-than' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -401,8 +415,15 @@
 				</xs:attribute>
 			</xs:element>
 
-			<!-- Greater Than -->
-			<xs:element name='equals' type='twoMathematicalExpressionArguments_type'>
+			<!-- Equals -->
+			<xs:element name='equals' type='tContainsTwoOrMoreMathematicalOperations'>
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Not Equals -->
+			<xs:element name='not-equals' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -433,22 +454,22 @@
 	</xs:group>
 
 	<!-- Unbounded Binary Evaluation Arguments-->
-	<xs:complexType name='unboundedBinaryEvaluationArguments_type'>
+	<xs:complexType name='tContainsTwoOrMoreBinaryOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='binaryEvaluation_group' minOccurs='2' maxOccurs='unbounded' />
+			<xs:group ref='gBinaryOperations' minOccurs='2' maxOccurs='unbounded' />
 		</xs:sequence>
 	</xs:complexType>
 
 	<!-- One Binary Evaluation Arguments -->
-	<xs:complexType name='oneBinaryEvaluationArguments_type'>
+	<xs:complexType name='tContainsExactlyOneBinaryOperations'>
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:group ref='mathematicalExpression_group' minOccurs='1' maxOccurs='1' />
+			<xs:group ref='gMathematicalOperations' minOccurs='1' maxOccurs='1' />
 		</xs:sequence>
 	</xs:complexType>
 
