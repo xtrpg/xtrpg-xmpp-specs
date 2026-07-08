@@ -33,17 +33,17 @@ TODO
 
 
 
-### The 'add' Element
+#### The 'add' Element
 
 The `add` element computes the mathematical sum of multiple child elements.
 
-### Evaluation Rules
+##### Evaluation Rules
 
 1. The `<add>` element MUST contain two or more child elements representing mathematical expressions or numerical representations.
 2. The evaluation engine MUST process each child expression and calculate their sum sequentially.
 3. If any child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
 
-#### Mathematical Definition
+##### Mathematical Definition
 
 The operation is evaluated iteratively over $n$ arguments as follows:
 
@@ -258,11 +258,11 @@ The following example demonstrates how to determine a character's starting hit p
 
 
 
-### The 'clamp' Element
+#### The 'clamp' Element
 
 The `<clamp>` element restricts a numerical value so that it falls within a specified minimum and maximum range.
 
-#### Evaluation Rules
+##### Evaluation Rules
 
 1. The `<clamp>` element MUST contain exactly three child elements representing mathematical expressions.
 2. The children MUST be evaluated in strict positional order:
@@ -271,13 +271,13 @@ The `<clamp>` element restricts a numerical value so that it falls within a spec
     * **Argument 3 (Maximum):** The upper bound allowed for the expression.
 3. If Argument 2 (Minimum) evaluates to a value greater than Argument 3 (Maximum), the evaluation engine MUST treat the schema as malformed or throw an evaluation error.
 
-#### Mathematical Definition
+##### Mathematical Definition
 
 The operation is evaluated as follows:
 
 $$ \text{clamp}(x, \text{min}, \text{max}) = \max(\text{min}, \min(x, \text{max})) $$
 
-#### XML Example
+##### XML Example
 
 The following example clamps a character's calculated speed modifier (which could be negative or highly boosted) between a minimum of 0 and a maximum of 5:
 
@@ -441,7 +441,6 @@ The following example demonstrates how to check if a character has both an activ
 ```xml
 <and>
   <attribute ref="is_stealthed"/>
-
   <attribute ref="has_ambush_talent"/>
 </and>
 ```
@@ -637,7 +636,7 @@ The following example demonstrates how to invert a boolean check, evaluating to 
 
 
 
-#### Comparison Operators
+### Comparison Operators
 
 Comparison operators evaluate numerical mathematical operations to produce a boolean result.
 
@@ -781,12 +780,58 @@ The following example evaluates whether a character's current hit points have de
 
 
 
+### Numerical Array Expressions
+
+#### The 'range' Element
+
+The `<range>` element generates an inclusive sequence or span of values bounded by a specified minimum and maximum mathematical expression. It is typically used by evaluation engines to determine a scale, step progression, or valid operating boundary for dynamic dice tables and progression loops.
+
+##### Evaluation Rules
+
+1. The `<range>` element MUST contain exactly two child elements representing mathematical expressions.
+2. The children MUST be evaluated in strict positional order:
+    * **Argument 1 (Start/Minimum):** The mathematical expression establishing the inclusive lower bound of the range.
+    * **Argument 2 (End/Maximum):** The mathematical expression establishing the inclusive upper bound of the range.
+3. If Argument 1 evaluates to a value strictly greater than Argument 2, the evaluation engine MUST handle this as an empty range or throw an execution error depending on the application context.
+4. If either child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation defines an interval over integers or real numbers bounded positionally:
+
+$$\text{range}(x_{\text{start}}, x_{\text{end}}) = [x_{\text{start}}, x_{\text{end}}]$$
+
+##### XML Example
+
+The following example demonstrates how to define a dynamic level-based range spanning from a character's current level up to their maximum possible tier boundary:
+
+```xml
+<range>
+  <!-- Argument 1: the inclusive lower bound of the range -->
+  <attribute ref="current_level"/>
+
+  <!-- Argument 2: the inclusive upper bound of the range -->
+  <integer value="20"/>
+</range>
+```
 
 
 
-## Implementation Notes
+### Dice Notation
 
-TODO
+#### The `dice` Element
+
+
+
+#### The `dice-definitions` Element
+
+
+
+
+
+
+
+
 
 ## Implementation Notes
 

@@ -473,4 +473,24 @@
 		</xs:sequence>
 	</xs:complexType>
 
+
+
+	<!-- Numerical Array Expressions -->
+	<xs:group name="gNumericalArrayExpressions">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+
+		<xs:choice>
+
+			<!-- Range -->
+			<xs:element name='range' type='tContainsExactlyTwoMathematicalOperations'>
+				<xs:annotation>
+					<xs:documentation>Generates an inclusive sequence or span of values bounded by a specified minimum and maximum mathematical expression.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+		</xs:choice>
+	</xs:group>
+
 </xs:schema>
