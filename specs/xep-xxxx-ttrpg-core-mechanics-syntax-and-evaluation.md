@@ -59,6 +59,35 @@ The following example demonstrates how to add a character's base physical attrib
 </add>
 ```
 
+#### The 'subtract' Element
+
+The `<subtract>` element computes the mathematical difference by sequentially subtracting subsequent child expressions from the first child element.
+
+##### Evaluation Rules
+
+1. The `<subtract>` element MUST contain two or more child elements representing mathematical expressions.
+2. The evaluation engine MUST treat the first child expression as the base minuend ($x_1$).
+3. The evaluation engine MUST sequentially subtract each subsequent child expression ($x_2, x_3, \dots, x_n$) from the accumulated value.
+4. If any child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation is evaluated iteratively over $n$ arguments as follows:
+
+$$\text{subtract}(x_1, x_2, \dots, x_n) = x_1 - \sum_{i=2}^{n} x_i$$
+
+##### XML Example
+
+The following example demonstrates how to subtract an armor encumbrance penalty and an active wound modifier from a character's base speed attribute:
+
+```xml
+<subtract xmlns="urn:xmpp:xtrpg:system:0">
+  <attribute ref="base_speed"/>
+  <attribute ref="armor_encumbrance_penalty"/>
+  <integer value="5"/>
+</subtract>
+```
+
 ### The 'clamp' Element
 
 The `<clamp>` element restricts a numerical value so that it falls within a specified minimum and maximum range.

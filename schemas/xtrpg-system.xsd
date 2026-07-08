@@ -110,7 +110,7 @@
 			<!-- Subtract -->
 			<xs:element name='subtract' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Computes the mathematical difference by sequentially subtracting subsequent child expressions from the first child expression.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
