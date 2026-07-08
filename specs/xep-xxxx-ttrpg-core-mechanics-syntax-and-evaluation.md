@@ -31,6 +31,8 @@ TODO
 
 ### Mathematical Expressions
 
+
+
 ### The 'add' Element
 
 The `add` element computes the mathematical sum of multiple child elements.
@@ -58,6 +60,8 @@ The following example demonstrates how to add a character's base physical attrib
   <integer value="2"/>
 </add>
 ```
+
+
 
 #### The 'subtract' Element
 
@@ -88,6 +92,8 @@ The following example demonstrates how to subtract an armor encumbrance penalty 
 </subtract>
 ```
 
+
+
 #### The 'multiply' Element
 
 The `<multiply>` element computes the mathematical product of multiple child expressions.
@@ -114,6 +120,8 @@ The following example demonstrates how to calculate a critical hit's double weap
   <integer value="2"/>
 </multiply>
 ```
+
+
 
 #### The 'divide' Element
 
@@ -144,6 +152,8 @@ The following example demonstrates how a character's calculated base score (an a
   <integer value="2"/>
 </divide>
 ```
+
+
 
 #### The 'round' Element
 
@@ -184,6 +194,8 @@ The following example shows how to calculate a standard d20 ability modifier ($\
 </round>
 ```
 
+
+
 #### The 'min' Element
 
 The `<min>` element evaluates a sequence of child elements and returns the lowest numerical value among them. It allows for dynamic floor thresholds or choosing the least advantageous modifier in systems that utilize disadvantage mechanics.
@@ -211,6 +223,8 @@ The following example demonstrates choosing the lowest value between a character
   <attribute ref="exhaustion_encumbrance_limit"/>
 </min>
 ```
+
+
 
 #### The 'max' Element
 
@@ -241,6 +255,8 @@ The following example demonstrates how to determine a character's starting hit p
     <integer value="4"/> </add>
 </max>
 ```
+
+
 
 ### The 'clamp' Element
 
@@ -278,6 +294,8 @@ The following example clamps a character's calculated speed modifier (which coul
 </clamp>
 ```
 
+
+
 #### The 'abs' Element
 
 The `<abs>` element calculates the absolute value of a nested mathematical expression, converting any negative numerical outcome into its non-negative equivalent representing its distance from zero.
@@ -307,6 +325,8 @@ The following example demonstrates how to find the absolute difference between t
   </subtract>
 </abs>
 ```
+
+
 
 #### The 'mod' Element
 
@@ -338,6 +358,8 @@ The following example shows how to calculate a character's progress toward their
 </mod>
 ```
 
+
+
 #### The 'ternary' Element
 
 The `<ternary>` element provides inline conditional branching logic for mathematical expressions, mimicking a traditional if-then-else programming structure. It uses the outcome of a boolean evaluation to determine which mathematical path to calculate.
@@ -364,12 +386,17 @@ $$f(\text{condition}, \text{trueBranch}, \text{falseBranch}) = \begin{cases} \te
 The following example evaluates if a character's `is_bloodied` boolean attribute is `true`. If it evaluates to `true`, a flat rage bonus of `5` is applied; otherwise, it branches to a value of `0`:
 
 ```xml
-<ternary xmlns="urn:xmpp:xtrpg:system:0">
+<ternary>
   <attribute ref="is_bloodied"/>
   <integer value="5"/>
   <integer value="0"/>
 </ternary>
 ```
+
+
+
+
+
 
 ### Binary Operations
 
@@ -381,10 +408,236 @@ Logical gate elements evaluate their nested conditions recursively.
 
 *   **`<and>`**: MUST contain two or more binary operations. Evaluates to `true` if, and only if, all child elements equate to `true`.
 *   **`<or>`**: MUST contain two or more binary operations. Evaluates to `true` if one or more child elements equate to `true`.
-*   **`<not>`**: MUST contain exactly one child mathematical operation. Evaluates to `true` if the child expression evaluates to `false` or `0`.
-*   **`<nor>`**: MUST contain two or more binary operations. Evaluates to `true` if all child elements equate to `false`.
 *   **`<xor>`**: MUST contain two or more binary operations. Evaluates to `true` if an odd number of child elements equate to `true`.
+*   **`<nand>`**: MUST contain two or more binary operations. Evaluates to `true` if one or more child elements equate to `false`.
+*   **`<nor>`**: MUST contain two or more binary operations. Evaluates to `true` if all child elements equate to `false`.
 *   **`<xnor>`**: MUST contain two or more binary operations. Evaluates to `true` if an even number of child elements equate to `true`.
+*   **`<not>`**: MUST contain exactly one child mathematical operation. Evaluates to `true` if the child expression evaluates to `false` or `0`.
+
+
+
+#### The 'and' Element
+
+The `<and>` element performs a logical conjunction across multiple child binary operations. It resolves to a boolean value.
+
+##### Evaluation Rules
+
+1. The `<and>` element MUST contain two or more child elements belonging to the binary operations group.
+2. The evaluation engine MUST evaluate the child operations.
+3. If all child operations evaluate to `true` (or a non-zero numerical value if implicit conversion is supported), the `<and>` element MUST return `true`.
+4. If any child operation evaluates to `false` (or `0`), the `<and>` element MUST immediately return `false`.
+5. The evaluation engine SHOULD implement short-circuit evaluation; if any child expression evaluates to `false`, subsequent child expressions within the same `<and>` block do not need to be processed.
+
+##### Mathematical Definition
+
+The operation is evaluated iteratively over $n$ boolean arguments as follows:
+
+$$\text{and}(b_1, b_2, \dots, b_n) = b_1 \land b_2 \land \dots \land b_n$$
+
+##### XML Example
+
+The following example demonstrates how to check if a character has both an active stealth state and a specific rogue talent before applying an incoming modifier:
+
+```xml
+<and>
+  <attribute ref="is_stealthed"/>
+
+  <attribute ref="has_ambush_talent"/>
+</and>
+```
+
+
+
+#### The 'or' Element
+
+The `<or>` element performs a logical disjunction (OR operation) across multiple child conditions. It evaluates to `true` if at least one of its child expressions resolves to `true`.
+
+##### Evaluation Rules
+
+1. The `<or>` element MUST contain two or more child elements representing binary operations.
+2. The evaluation engine MUST process the child elements sequentially.
+3. If any child element evaluates to `true`, the engine MAY short-circuit and immediately return `true` without evaluating any remaining child elements.
+4. If all child elements evaluate to `false`, the element MUST return `false`.
+
+##### Mathematical Definition
+
+The operation is evaluated over $n$ boolean arguments as follows:
+
+$$\text{or}(b_1, b_2, \dots, b_n) = b_1 \lor b_2 \lor \dots \lor b_n$$
+
+##### XML Example
+
+The following example checks if a character satisfies either condition to gain access to a specific feat or ability: having a `strength` attribute greater than or equal to 16, OR possessing a specialized boolean attribute flag named `bypasses_strength_requirement`:
+
+```xml
+<or>
+  <greater-than boundary="inclusive">
+    <attribute ref="strength"/>
+    <integer value="16"/>
+  </greater-than>
+  <attribute ref="bypasses_strength_requirement"/>
+</or>
+```
+
+
+
+#### The 'xor' Element
+
+The `<xor>` element performs an exclusive-OR logical evaluation across multiple child binary operations.
+
+##### Evaluation Rules
+
+1. The `<xor>` element MUST contain two or more child elements representing binary operations.
+2. The evaluation engine MUST evaluate all child binary operations.
+3. The element MUST evaluate to `true` if, and only if, an odd number of child elements evaluate to `true`. If an even number of child elements evaluate to `true` (including zero), the element MUST evaluate to `false`.
+4. If any child expression fails to resolve to a valid boolean state, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical / Logical Definition
+
+The operation is evaluated over $n$ boolean arguments as follows:
+
+$$\text{xor}(b_1, b_2, \dots, b_n) = \left( \sum_{i=1}^{n} \text{int}(b_i) \right) \pmod 2 \equiv 1$$
+
+*(Where $\text{int}(true) = 1$ and $\text{int}(false) = 0$.)*
+
+##### XML Example
+
+The following example returns `true` if a character has *either* the "sneaking" status or the "invisible" status active, but evaluates to `false` if they have both or neither:
+
+```xml
+<xor>
+  <attribute ref="is_sneaking"/>
+  <attribute ref="is_invisible"/>
+</xor>
+```
+
+
+#### The 'nand' Element
+
+The `<nand>` element (Not-AND) performs a negative-conjunction logical operation across multiple child evaluations. It evaluates to `true` if at least one of its child elements evaluates to `false`.
+
+##### Evaluation Rules
+
+1. The `<nand>` element MUST contain two or more child elements representing binary operations.
+2. The evaluation engine MUST evaluate the child operations. If any child element evaluates to `false` (or a numerical `0`), the `<nand>` expression MUST immediately short-circuit and return `true`.
+3. The `<nand>` element MUST only evaluate to `false` if every single nested child operation evaluates to `true`.
+
+##### Mathematical Definition
+
+The operation is evaluated over $n$ logical arguments as follows (equivalent to negating an AND gate):
+
+$$\text{nand}(b_1, b_2, \dots, b_n) = \neg(b_1 \land b_2 \land \dots \land b_n)$$
+
+##### XML Example
+
+The following example returns `true` unless a character is *both* wearing heavy armor and lacks the required strength score (meaning it outputs `true` if they are safe, and `false` only if the penalty condition is fully active):
+
+```xml
+<nand>
+  <attribute ref="is_wearing_heavy_armor"/>
+  <less-than>
+    <attribute ref="strength"/>
+    <attribute ref="armor_strength_requirement"/>
+  </less-than>
+</nand>
+```
+
+
+
+#### The 'nor' Element
+
+The `<nor>` element performs a logical NOT-OR operation across multiple child conditions. It evaluates whether none of the nested conditions are true.
+
+##### Evaluation Rules
+
+1. The `<nor>` element MUST contain two or more child elements representing binary operations.
+2. The evaluation engine MUST evaluate the child elements sequentially.
+3. If any child element evaluates to `true`, the engine MUST immediately short-circuit and return `false`.
+4. The `<nor>` element MUST evaluate to `true` if, and only if, all child elements evaluate to `false`.
+
+##### Mathematical Definition
+
+The operation is evaluated over $n$ boolean arguments as follows:
+
+$$\text{nor}(x_1, x_2, \dots, x_n) = \neg \left( \bigvee_{i=1}^{n} x_i \right)$$
+
+##### XML Example
+
+The following example demonstrates a conditional check ensuring a character is neither under a "stunned" condition nor currently "unconscious" before allowing an action:
+
+```xml
+<nor>
+  <attribute ref="is_stunned"/>
+  <attribute ref="is_unconscious"/>
+</nor>
+```
+
+
+
+#### The 'xnor' Element
+
+The `<xnor>` element performs an Exclusive NOR logical operation across multiple child binary operations. It resolves to a single boolean value.
+
+##### Evaluation Rules
+
+1. The `<xnor>` element MUST contain two or more child elements representing binary operations.
+2. The evaluation engine MUST evaluate all child binary operations to determine the total count of expressions that resolve to `true`.
+3. The element MUST evaluate to `true` if an even number of child expressions resolve to `true` (including zero).
+4. The element MUST evaluate to `false` if an odd number of child expressions resolve to `true`.
+
+##### Mathematical Definition
+
+The operation is evaluated over $n$ boolean arguments as follows:
+
+$$\text{xnor}(b_1, b_2, \dots, b_n) = \left( \sum_{i=1}^{n} \text{int}(b_i) \right) \pmod 2 \equiv 0$$
+
+Where $\text{int}(b_i)$ converts `true` to 1 and `false` to 0.
+
+##### XML Example
+
+The following example evaluates whether a character matches an even distribution of specific conditional binary flags (e.g., verifying consistency between an automated status and a manual override constraint):
+
+```xml
+<xnor xmlns="urn:xmpp:xtrpg:system:0">
+  <attribute ref="is_poisoned"/>
+  <boolean value="true"/>
+</xnor>
+```
+
+
+
+#### The 'not' Element
+
+The `<not>` element performs a logical negation (inversion) on a single child expression. It converts a truth value to false, and a false value to true.
+
+##### Evaluation Rules
+
+1. The `<not>` element MUST contain exactly one child element representing a binary or mathematical expression.
+2. The evaluation engine MUST evaluate the child expression first.
+3. If the child expression evaluates to `true` (or a non-zero numerical value), the `<not>` element MUST return `false`.
+4. If the child expression evaluates to `false` (or a numerical value of `0`), the `<not>` element MUST return `true`.
+
+##### Mathematical Definition
+
+The operation is evaluated as follows:
+
+$$\text{not}(x) = \neg x$$
+
+##### XML Example
+
+The following example demonstrates how to invert a boolean check, evaluating to `true` only if the character does *not* possess the `is_encumbered` status attribute:
+
+```xml
+<not xmlns="urn:xmpp:xtrpg:system:0">
+  <attribute ref="is_encumbered"/>
+</not>
+```
+
+
+
+
+
+
 
 #### Comparison Operators
 
@@ -447,7 +700,7 @@ TODO
 ### Short-Circuit Evaluation of Ternary Expressions
 When building an evaluation engine for the `<ternary>` element, developers SHOULD implement short-circuit (lazy) evaluation.
 
-Because game manifests can feature deeply nested calculation trees or trigger dynamic attribute database queries via `<attribute ref="..." />`, executing both branches is highly inefficient[cite: 4, 6]. By evaluating the binary condition first, the engine can completely skip parsing or looking up attributes contained within the unused branch. This safeguards application performance and ensures that any structural or evaluation errors present in an inactive conditional branch do not prematurely crash the engine runtime.
+Because game manifests can feature deeply nested calculation trees or trigger dynamic attribute database queries via `<attribute ref="..." />`, executing both branches is highly inefficient. By evaluating the binary condition first, the engine can completely skip parsing or looking up attributes contained within the unused branch. This safeguards application performance and ensures that any structural or evaluation errors present in an inactive conditional branch do not prematurely crash the engine runtime.
 
 ## Accessibility Considerations
 

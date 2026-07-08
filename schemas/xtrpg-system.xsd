@@ -328,7 +328,7 @@
 			</xs:element>
 
 			<!-- Nand -->
-			<xs:element name='nor' type='tContainsTwoOrMoreBinaryOperations'>
+			<xs:element name='nand' type='tContainsTwoOrMoreBinaryOperations'>
 				<xs:annotation>
 					<xs:documentation>Evaluates to TRUE if one or more of the child elements are equal to FALSE</xs:documentation>
 				</xs:annotation>
