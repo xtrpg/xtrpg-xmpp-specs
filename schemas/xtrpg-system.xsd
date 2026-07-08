@@ -372,7 +372,7 @@
 			<!-- Greater Than -->
 			<xs:element name='greater-than' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Evaluates whether the numerical outcome of a primary mathematical expression is greater than (or greater than or equal to) a secondary baseline expression.</xs:documentation>
 				</xs:annotation>
 				<xs:attribute name="boundary" use='optional' default='exclusive'>
 					<xs:simpleType>
@@ -395,7 +395,7 @@
 			<!-- Less Than -->
 			<xs:element name='less-than' type='tContainsExactlyTwoMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Evaluates whether the numerical outcome of a primary mathematical expression is less than (or less than or equal to) a secondary baseline expression.</xs:documentation>
 				</xs:annotation>
 				<xs:attribute name="boundary" use='optional' default='exclusive'>
 					<xs:simpleType>
@@ -418,14 +418,14 @@
 			<!-- Equals -->
 			<xs:element name='equals' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Performs an equality comparison across multiple child mathematical expressions. It evaluates whether all provided arguments resolve to the exact same numerical value.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 
 			<!-- Not Equals -->
 			<xs:element name='not-equals' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Performs an inequality comparison across multiple child expressions. It evaluates to `true` if the evaluated child expressions do not all result in the same numerical value.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 

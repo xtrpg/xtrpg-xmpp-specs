@@ -598,7 +598,7 @@ Where $\text{int}(b_i)$ converts `true` to 1 and `false` to 0.
 The following example evaluates whether a character matches an even distribution of specific conditional binary flags (e.g., verifying consistency between an automated status and a manual override constraint):
 
 ```xml
-<xnor xmlns="urn:xmpp:xtrpg:system:0">
+<xnor>
   <attribute ref="is_poisoned"/>
   <boolean value="true"/>
 </xnor>
@@ -628,12 +628,10 @@ $$\text{not}(x) = \neg x$$
 The following example demonstrates how to invert a boolean check, evaluating to `true` only if the character does *not* possess the `is_encumbered` status attribute:
 
 ```xml
-<not xmlns="urn:xmpp:xtrpg:system:0">
+<not>
   <attribute ref="is_encumbered"/>
 </not>
 ```
-
-
 
 
 
@@ -643,53 +641,148 @@ The following example demonstrates how to invert a boolean check, evaluating to 
 
 Comparison operators evaluate numerical mathematical operations to produce a boolean result.
 
-##### The '<greater-than>' and '<less-than>' Elements
 
-These elements compare exactly two mathematical expressions. They accept an optional `boundary` attribute to define inclusive or exclusive threshold boundaries.
 
-*   **Argument 1**: The primary expression to evaluate.
-*   **Argument 2**: The baseline expression compared against Argument 1.
+#### The 'greater-than' Element
 
-The `boundary` attribute MUST support the following values:
-*   **`exclusive` (Default)**: The threshold is strict comparison ($>$ or $<$).
-*   **`inclusive`**: The threshold includes equal boundaries ($\ge$ or $\le$).
-
-##### The '<equals>' and '<not-equals>' Elements
-
-*   **`<equals>`**: MUST contain two or more mathematical expressions. Evaluates to `true` if all child expression evaluations result in the identical numerical value.
-*   **`<not-equals>`**: MUST contain two or more mathematical expressions. Evaluates to `true` if any child expression value differs from the others.
-
-#### Example: Ternary Choice Using Binary Operations
-
-The following example evaluates if a character's `strength` attribute is greater than or equal to 15. If true, it returns a bonus value of `2`, otherwise it returns `0`:
-
-```xml
-<ternary xmlns="urn:xmpp:xtrpg:system:0">
-  <!-- 1st Child: The Binary Operation Condition -->
-  <greater-than boundary="inclusive">
-    <attribute ref="strength"/>
-    <integer value="15"/>
-  </greater-than>
-
-  <!-- 2nd Child: Expression evaluated if TRUE -->
-  <integer value="2"/>
-
-  <!-- 3rd Child: Expression evaluated if FALSE -->
-  <integer value="0"/>
-</ternary>
-```
-
-#### The 'ternary' Element
-
-The `<ternary>` element provides conditional branching logic for mathematical expressions.
+The `<greater-than>` element evaluates whether the numerical outcome of a primary mathematical expression is greater than (or greater than or equal to) a secondary baseline expression. It resolves to a binary boolean result (`true` or `false`).
 
 ##### Evaluation Rules
-1. The `<ternary>` element MUST contain exactly three child components: one binary operation group followed by exactly two mathematical expressions.
-2. The implementation MUST evaluate the child binary operation first.
-3. If the binary operation evaluates to `true`, the implementation MUST evaluate and return the outcome of the second child element (the truth branch). The third child element MUST NOT be evaluated.
-4. If the binary operation evaluates to `false`, the implementation MUST evaluate and return the outcome of the third child element (the false branch). The second child element MUST NOT be evaluated.
 
-TODO
+1. The `<greater-than>` element MUST contain exactly two child elements representing mathematical expressions.
+2. The children MUST be evaluated in strict positional order:
+    * **Argument 1:** The primary expression to be evaluated.
+    * **Argument 2:** The baseline expression compared against Argument 1.
+3. The element MUST support an optional `boundary` attribute to control threshold inclusivity:
+    * **`exclusive` (Default):** The comparison evaluates to `true` if and only if Argument 1 is strictly greater than Argument 2 ($>$).
+    * **`inclusive`:** The comparison evaluates to `true` if Argument 1 is greater than or equal to Argument 2 ($\ge$).
+4. If either child expression evaluates to a non-numeric type, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation is evaluated based on the specified boundary attribute:
+
+$$\text{greater-than}(x_1, x_2) =
+\begin{cases}
+x_1 > x_2 & \text{if boundary = "exclusive"} \\
+x_1 \ge x_2 & \text{if boundary = "inclusive"}
+\end{cases}$$
+
+##### XML Examples
+
+###### Example A: Exclusive Boundary (Strict Comparison)
+The following example checks if a character's current hit points are strictly greater than 0:
+
+```xml
+<greater-than boundary="exclusive">
+  <attribute ref="current_hp"/>
+  <integer value="0"/>
+</greater-than>
+```
+
+
+
+#### The 'less-than' Element
+
+The `<less-than>` element performs a comparison operation between exactly two numerical child expressions, evaluating to a boolean value. It determines if the value of the first expression is numerically smaller than the second.
+
+##### Evaluation Rules
+
+1. The `<less-than>` element MUST contain exactly two child elements representing mathematical expressions.
+2. The children MUST be evaluated in strict positional order:
+    * **Argument 1**: The primary expression to evaluate.
+    * **Argument 2**: The baseline expression compared against Argument 1.
+3. The element MUST support an optional `boundary` attribute to toggle threshold inclusion logic:
+    * **`exclusive` (Default)**: Evaluates to `true` if Argument 1 is strictly less than Argument 2 ($<$).
+    * **`inclusive`**: Evaluates to `true` if Argument 1 is less than or equal to Argument 2 ($\le$).
+4. If either child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation is evaluated based on the state of the `boundary` attribute:
+
+$$\text{less-than}(x, y) =
+\begin{cases}
+x < y & \text{if } \text{boundary} = \text{"exclusive"} \\
+x \le y & \text{if } \text{boundary} = \text{"inclusive"}
+\end{cases}$$
+
+##### XML Example
+
+The following example checks if a character's current weight burden exceeds or is equal to their maximum carry capacity. In this instance, it returns `true` if the current weight has successfully remained below or equal to the maximum threshold:
+
+```xml
+<less-than boundary="inclusive">
+  <attribute ref="current_weight"/>
+  <attribute ref="max_carry_capacity"/>
+</less-than>
+```
+
+
+
+#### The 'equals' Element
+
+The `<equals>` element performs an equality comparison across multiple child mathematical expressions. It evaluates whether all provided arguments resolve to the exact same numerical value.
+
+##### Evaluation Rules
+
+1. The `<equals>` element MUST contain two or more child elements representing mathematical expressions.
+2. The evaluation engine MUST compute the numerical result of every child expression.
+3. The element MUST evaluate to `true` if, and only if, the resolved values of all child expressions are identical. If any child expression results in a different value, the element MUST evaluate to `false`.
+4. If any child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation is evaluated over $n$ arguments as follows:
+
+$$\text{equals}(x_1, x_2, \dots, x_n) = (x_1 = x_2 = \dots = x_n)$$
+
+##### XML Example
+
+The following example checks if a character's current hit points have dropped to exactly match their minimum allowable health bound (typically 0) to determine if they are incapacitated:
+
+```xml
+<equals>
+  <attribute ref="current_hp"/>
+  <integer value="0"/>
+</equals>
+```
+
+
+
+#### The 'not-equals' Element
+
+The `<not-equals>` element performs an inequality comparison across multiple child expressions. It evaluates to `true` if the evaluated child expressions do not all result in the same numerical value.
+
+##### Evaluation Rules
+
+1. The `<not-equals>` element MUST contain two or more child elements representing mathematical expressions.
+2. The evaluation engine MUST evaluate all child expressions to their final numerical values.
+3. The element MUST evaluate to `true` if at least one child expression value differs from any other child expression value (i.e., they are not all mutually identical). If all child expressions resolve to the exact same value, it MUST evaluate to `false`.
+4. If any child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+##### Mathematical Definition
+
+The operation is evaluated iteratively over $n$ arguments as follows:
+
+$$\text{not-equals}(x_1, x_2, \dots, x_n) = \neg(x_1 = x_2 = \dots = x_n)$$
+
+##### XML Example
+
+The following example evaluates whether a character's current hit points have deviated from their maximum hit points (which would indicate they are currently damaged or boosted):
+
+```xml
+<not-equals>
+  <attribute ref="current_hp"/>
+  <attribute ref="max_hp"/>
+</not-equals>
+```
+
+
+
+
+
+
 
 ## Implementation Notes
 
