@@ -103,7 +103,7 @@
 			<!-- Add -->
 			<xs:element name='add' type='tContainsTwoOrMoreMathematicalOperations'>
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Computes the mathematical sum of multiple child elements.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 

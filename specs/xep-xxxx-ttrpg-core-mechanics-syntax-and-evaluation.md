@@ -31,6 +31,34 @@ TODO
 
 ### Mathematical Expressions
 
+### The 'add' Element
+
+The `add` element computes the mathematical sum of multiple child elements.
+
+### Evaluation Rules
+
+1. The `<add>` element MUST contain two or more child elements representing mathematical expressions or numerical representations.
+2. The evaluation engine MUST process each child expression and calculate their sum sequentially.
+3. If any child expression evaluates to a non-numeric type, or if a structural child node is missing, the execution engine MUST treat the evaluation as an error.
+
+#### Mathematical Definition
+
+The operation is evaluated iteratively over $n$ arguments as follows:
+
+$$\text{add}(x_1, x_2, \dots, x_n) = \sum_{i=1}^{n} x_i$$
+
+##### XML Example
+
+The following example demonstrates how to add a character's base physical attribute value, their proficiency modifier, and a flat circumstantial magic equipment bonus:
+
+```xml
+<add xmlns="urn:xmpp:xtrpg:system:0">
+  <attribute ref="strength"/>
+  <attribute ref="proficiency_bonus"/>
+  <integer value="2"/>
+</add>
+```
+
 ### The 'clamp' Element
 
 The `<clamp>` element restricts a numerical value so that it falls within a specified minimum and maximum range.
