@@ -8,18 +8,17 @@
 
 
 
-
-
-
-
 	<xs:complexType name='systemManifest_type'>
-		<xs:sequence>
-			<xs:element name='attributes' type='attributes_type' minOccurs='0' maxOccurs='1' />
-		</xs:sequence>
+		<xs:all>
+			<xs:element name='attributes' type='tAttributes' minOccurs='0' maxOccurs='1' />
+			<xs:element name='dice-definitions' type='tDiceDefinitions' minOccurs='0' maxOccurs='1' />
+		</xs:all>
 		<xs:attribute name="urn" type='xs:string' use='required' />
 	</xs:complexType>
 
-	<xs:complexType name='attributes_type'>
+
+
+	<xs:complexType name='tAttributes'>
 		<xs:sequence>
 			<xs:element name='integer' type='numberAttribute_type' minOccurs='0' maxOccurs='unbounded' />
 			<xs:element name='decimal' type='numberAttribute_type' minOccurs='0' maxOccurs='unbounded' />
@@ -44,6 +43,10 @@
 
 	<xs:complexType name='booleanAttribute_type'>
 		<xs:attribute name="id" type='xs:string' use='required' />
+	</xs:complexType>
+
+	<xs:complexType name='tAttributeReference'>
+		<xs:attribute name="ref" type='xs:string' use='required' />
 	</xs:complexType>
 
 	<xs:complexType name='calculation_type'>
@@ -207,14 +210,10 @@
 			</xs:element>
 
 			<!-- Attribute Reference -->
-			<xs:element name='attribute'>
+			<xs:element name='attribute' type='tAttributeReference'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
-
-				<xs:complexType>
-					<xs:attribute name="ref" type='xs:string' use='required' />
-				</xs:complexType>
 			</xs:element>
 		</xs:choice>
 	</xs:group>
@@ -370,49 +369,64 @@
 			</xs:element>
 
 			<!-- Greater Than -->
-			<xs:element name='greater-than' type='tContainsExactlyTwoMathematicalOperations'>
+			<xs:element name='greater-than'>
 				<xs:annotation>
 					<xs:documentation>Evaluates whether the numerical outcome of a primary mathematical expression is greater than (or greater than or equal to) a secondary baseline expression.</xs:documentation>
 				</xs:annotation>
-				<xs:attribute name="boundary" use='optional' default='exclusive'>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="inclusive">
-								<xs:annotation>
-									<xs:documentation>Rounds towards negative infinity.</xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-							<xs:enumeration value="exclusive">
-								<xs:annotation>
-									<xs:documentation>Rounds towards positive infinity.</xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tContainsExactlyTwoMathematicalOperations">
+							<xs:attribute name="boundary" use='optional' default='exclusive'>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="inclusive">
+											<xs:annotation>
+												<xs:documentation>Rounds towards negative infinity.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="exclusive">
+											<xs:annotation>
+												<xs:documentation>Rounds towards positive infinity.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
 			</xs:element>
 
 			<!-- Less Than -->
-			<xs:element name='less-than' type='tContainsExactlyTwoMathematicalOperations'>
+			<xs:element name='less-than'>
 				<xs:annotation>
 					<xs:documentation>Evaluates whether the numerical outcome of a primary mathematical expression is less than (or less than or equal to) a secondary baseline expression.</xs:documentation>
 				</xs:annotation>
-				<xs:attribute name="boundary" use='optional' default='exclusive'>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="inclusive">
-								<xs:annotation>
-									<xs:documentation>Rounds towards negative infinity.</xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-							<xs:enumeration value="exclusive">
-								<xs:annotation>
-									<xs:documentation>Rounds towards positive infinity.</xs:documentation>
-								</xs:annotation>
-							</xs:enumeration>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tContainsExactlyTwoMathematicalOperations">
+							<xs:attribute name="boundary" use='optional' default='exclusive'>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="inclusive">
+											<xs:annotation>
+												<xs:documentation>Rounds towards negative infinity.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="exclusive">
+											<xs:annotation>
+												<xs:documentation>Rounds towards positive infinity.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+
 			</xs:element>
 
 			<!-- Equals -->
@@ -441,14 +455,10 @@
 			</xs:element>
 
 			<!-- Boolean Attribute Reference -->
-			<xs:element name='attribute'>
+			<xs:element name='attribute' type='tAttributeReference'>
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
-
-				<xs:complexType>
-					<xs:attribute name="ref" type='xs:string' use='required' />
-				</xs:complexType>
 			</xs:element>
 		</xs:choice>
 	</xs:group>
@@ -492,5 +502,64 @@
 
 		</xs:choice>
 	</xs:group>
+
+
+	<!-- Dice Definitions -->
+	<xs:complexType name='tDiceDefinitions'>
+		<xs:annotation>
+			<xs:documentation>Defines the bounding container for defining different types of dice to be used within a system.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:element name='die' type='tDie' minOccurs='0' maxOccurs='unbounded' />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name='tDie'>
+		<xs:annotation>
+			<xs:documentation>Defines the bounding container for defining different types of dice to be used within a system.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:group ref='gNumericalArrayExpressions' minOccurs='0' maxOccurs='unbounded' />
+				<xs:group ref='gMathematicalOperations' minOccurs='0' maxOccurs='unbounded' />
+				<xs:element name='face' type='tFace' minOccurs='0' maxOccurs='unbounded' />
+				<xs:element name="symbol" minOccurs='0' maxOccurs='unbounded'>
+					<xs:complexType>
+						<xs:attribute name="value" type='xs:string' use='required' />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+
+		<xs:attribute name="id" type='xs:string' use='required' />
+		<xs:attribute name="faces" type='xs:integer' use='optional'>
+			<xs:annotation>
+				<xs:documentation>Shorthand method for defining a number of faces, of incrementing values starting from 1. This can be combined with child elements.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name='tFace'>
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+
+
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:group ref='gMathematicalOperations' minOccurs='0' maxOccurs='1' />
+				<xs:element name="symbol" minOccurs='0' maxOccurs='unbounded'>
+					<xs:complexType>
+						<xs:attribute name="value" type='xs:string' use='required' />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+
+		<xs:attribute name="count" type='xs:integer' use='optional' default='1' />
+	</xs:complexType>
+
 
 </xs:schema>
