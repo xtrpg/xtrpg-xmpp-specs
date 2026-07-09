@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<system-manifest xmlns="urn:xmpp:xtrpg:system:0"
+                 urn="urn:xmpp:xtrpg:system:vendor:com.white-wolf:storytellersystem:v5">
+
+	<dice-definitions>
+		<die id='core'>
+			<face count="5">
+				<symbol value='failure' />
+			</face>
+			<face count="4">
+				<symbol value='success' />
+			</face>
+			<face count="1">
+				<symbol value='success' />
+				<symbol value='critical' />
+			</face>
+		</die>
+
+		<die id='hazard'>
+			<face count="1">
+				<symbol value='failure' />
+				<symbol value='backlash' />
+			</face>
+			<face count="4">
+				<symbol value='failure' />
+			</face>
+			<face count="4">
+				<symbol value='success' />
+			</face>
+			<face count="1">
+				<symbol value='success' />
+				<symbol value='critical' />
+				<symbol value='messy' />
+			</face>
+		</die>
+	</dice-definitions>
+
+</system-manifest>

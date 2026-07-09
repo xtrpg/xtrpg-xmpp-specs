@@ -2,5 +2,8 @@
 <system-manifest xmlns="urn:xmpp:xtrpg:system:0"
                  urn="urn:xmpp:xtrpg:system:vendor:com.onepagerpg:all-outta-bubblegum:1">
 
+	<dice-definitions>
+		<die id='d10' faces='10' />
+	</dice-definitions>
 
 </system-manifest>

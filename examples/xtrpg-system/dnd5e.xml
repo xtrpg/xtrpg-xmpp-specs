@@ -4,8 +4,20 @@
 
 	<dice-definitions>
 		<die id='coin'>
-			<symbol value='heads' />
-			<symbol value='tails' />
+			<face>
+				<symbol value='head' />
+				<symbol value='heads' />
+				<symbol value='yes' />
+				<symbol value='even' />
+				<symbol value='evens' />
+			</face>
+			<face>
+				<symbol value='tail' />
+				<symbol value='tails' />
+				<symbol value='no' />
+				<symbol value='odd' />
+				<symbol value='odds' />
+			</face>
 		</die>
 		<die id='d4' faces='4' />
 		<die id='d6' faces='6' />

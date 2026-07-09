@@ -2,5 +2,8 @@
 <system-manifest xmlns="urn:xmpp:xtrpg:system:0"
                  urn="urn:xmpp:xtrpg:system:vendor:io.itch.gshowitt:honey-heist:1">
 
+	<dice-definitions>
+		<die id='d6' faces='6' />
+	</dice-definitions>
 
 </system-manifest>

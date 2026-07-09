@@ -2,6 +2,23 @@
 <system-manifest xmlns="urn:xmpp:xtrpg:system:0"
                  urn="urn:xmpp:xtrpg:system:vendor:com.wizards:dnd:5.5">
 
+	<dice-definitions>
+		<die id='core'>
+			<face count="3">
+				<symbol value='failure' />
+			</face>
+			<face count="2">
+				<symbol value='success' />
+				<symbol value='complication' />
+			</face>
+			<face count="1">
+				<symbol value='success' />
+				<symbol value='critical' />
+			</face>
+		</die>
+		<die id='d6' faces='6' />
+	</dice-definitions>
+
 	<attributes>
 		<integer id="helm">
 			<constraints><min value="0"/><max value="4"/><default value="0"/></constraints>
