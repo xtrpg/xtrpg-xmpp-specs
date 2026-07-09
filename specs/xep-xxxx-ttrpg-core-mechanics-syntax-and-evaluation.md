@@ -819,13 +819,154 @@ The following example demonstrates how to define a dynamic level-based range spa
 
 ### Dice Notation
 
-#### The `dice` Element
+#### The `die` Element
 
+The `<die>` defines the representation of a bounded random number generator. This element is used to define the different dice required to play this system. These dice can be based on numerical values, symbols or a combination of both.
+
+The direct child elements define the individual faces of the die.
+
+##### XML Example
+
+Shorthand definition.
+
+```xml
+<die id="d10" faces="10" />
+```
+
+The following is an example of defining a dice with 20 sides, containing the numbers of 1 through to 20. Commonly referred to as a D20 dice.
+
+```xml
+<die id="d20">
+  <range>
+    <integer value="1" />
+    <integer value="20" />
+  </range>
+</die>
+```
+
+The following is an example of creating a 4 sided dice, by defining each of the individual face values.
+
+```xml
+<die id="d4">
+  <integer value="1" />
+  <integer value="2" />
+  <integer value="3" />
+  <integer value="4" />
+</die>
+```
+
+The following is an example of a dice that uses non-numerical symbols for each of the faces. This specific example shows how a two-sided coin may be represented.
+
+```xml
+<die id="coin">
+  <symbol value="heads" />
+  <symbol value="tails" />
+</die>
+```
+
+More advanced faces
+
+```jsx
+<die id="face">
+	<face count="5">
+		<integer value="0" />
+	</face>
+	<face count="1">
+		<integer value="1" />
+	</face>
+</die>
+```
+
+More advanced faces
+
+```xml
+<die id="multiSymbol">
+	<face count="2">
+		<symbol value="fail" />
+	</face>
+	<face count="2" />
+	<face>
+		<symbol value="success" />
+	</face>
+	<face>
+		<symbol value="advantage" />
+		<symbol value="success" />
+	</face>
+</die>
+```
+
+Weighted Dice
+
+```jsx
+<die id="face">
+	<face count="50">
+		<symbol value="miss" />
+	</face>
+	<face count="40">
+		<symbol value="hit" />
+	</face>
+	<face count="10">
+		<symbol value="critical" />
+	</face>
+<die>
+```
+
+Dice faces based on your attribute scores
+
+```xml
+<die id="attribute">
+	<attribute ref="strength" />
+	<attribute ref="dexterity" />
+	<attribute ref="charisma" />
+	<attribute ref="intelligence" />
+	<attribute ref="wisdom" />
+	<attribute ref="constitution" />
+</die>
+```
+
+Dice with a combination of numerical values and symbols.
+
+```xml
+<die id="critical-d20">
+  <face>
+    <integer value="1" />
+    <symbol value="critical-fail" />
+  </face>
+  <range>
+    <integer value="2" />
+    <integer value="19" />
+  </range>
+  <face>
+    <integer value="20" />
+    <symbol value="critical-success" />
+  </face>
+</die>
+```
 
 
 #### The `dice-definitions` Element
 
+The `<dice-definitions>` element defines a collection of dice that is used by the system. Only one instance of this element can exist on a document. The element MUST be defined as a direct child of the system manifest.
 
+##### XML Example
+
+An example of a system that uses a D20 dice and a Coin Flip.
+
+```xml
+<dice-definitions>
+  <dice id='d20'>
+    <range>
+      <integer value="1" />
+      <integer value="20" />
+    </range>
+  </dice>
+
+  <dice id="coin">
+    <symbol value="heads" />
+    <symbol value="tails" />
+  </dice>
+</dice-definitions>
+```
 
 
 
