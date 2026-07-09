@@ -2,6 +2,20 @@
 <system-manifest xmlns="urn:xmpp:xtrpg:system:0"
                  urn="urn:xmpp:xtrpg:system:vendor:com.wizards:dnd:5.5">
 
+	<dice-definitions>
+		<die id='coin'>
+			<symbol value='heads' />
+			<symbol value='tails' />
+		</die>
+		<die id='d4' faces='4' />
+		<die id='d6' faces='6' />
+		<die id='d8' faces='8' />
+		<die id='d10' faces='10' />
+		<die id='d12' faces='12' />
+		<die id='d20' faces='20' />
+		<die id='d100' faces='100' />
+	</dice-definitions>
+
 	<attributes>
 
 		<!-- D&D Initiative Modifier Attribute -->
